@@ -15,8 +15,8 @@ const port = 3001;
 routes(router);
 
 app.use('/api', router);
-router.use((response, req, res, next) => {
-    res.status(200).send({ auth: true, response: response, message: 'Success' });
-});
+// router.use((response, req, res, next) => {
+//     res.status(200).send({ auth: true, response: response, message: 'Success' });
+// });
 
 app.listen(port);

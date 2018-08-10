@@ -12,17 +12,18 @@ exports.createAuthToken = (id) => {
         { expiresIn: 86400 } // expires in 24 hours 
     );
 };
-exports.validateAuthToken = (req, res) => {
+exports.validateAuthToken = (req, res, next) => {
     const token = req.headers['x-access-token'];
     if (!token) res.status(401).send({ auth: false, message: 'Access token not found!' });
-    return jwt.verify(token, config.secret, (err, decoded) => {
+    jwt.verify(token, config.secret, (err, decoded) => {
         if (err) {
-            return res.status(500).send({ error: err, auth: false, message: 'Authentication failed!' });
+            res.status(500).send({ error: err, auth: false, message: 'Authentication failed!' });
         }
-        return decoded.id;
+        req.userId = decoded.id;
+        next();
     });
 };
-exports.success = (res, response) => {
+exports.success = (response, req, res, next) => {
     res.status(200).send({ auth: true, response: response, message: 'Success' });
 };
 exports.failure = (res, err) => {
