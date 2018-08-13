@@ -18,9 +18,6 @@ const UserSchema = new Schema({
 		}
 	},
 	password: { type: String, required: [ true, 'Password is required' ] },
-	appliedjobs: [{ type: Schema.Types.ObjectId, ref: 'jobs' }],
-	interestedjobs: [{ type: Schema.Types.ObjectId, ref: 'jobs' }],
-    uploadedjobs: [{ type: Schema.Types.ObjectId, ref: 'jobs' }],
     created_at: { type: Date, default: new Date }
 });
 module.exports = mongoose.model('users', UserSchema);

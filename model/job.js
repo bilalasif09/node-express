@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const JobSchema = new Schema({
-    _id: Schema.Types.ObjectId,
     title: {
         type: String,
         required: [true, 'Title is required']
