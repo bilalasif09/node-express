@@ -6,7 +6,7 @@ const UserSchema = new Schema({
     email: {
 		type: String,
 		required: [ true, 'Email is required' ],
-		unique: true,
+		unique: [ true, 'Email already exist' ],
 		validate: {
 			validator: (v) => {
 				if(v.length>0) 

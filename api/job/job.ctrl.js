@@ -2,7 +2,17 @@ const jobModel = require('../../model/job');
 const ApiHelper = require('../api_helper');
 const mongoose = require('mongoose');
 
-exports.get = async (req, res, next) => {
+exports.getAll = async (req, res, next) => {
+    try {
+        const response = await jobModel.find();
+        next(response);
+    }
+    catch(err) {
+        ApiHelper.failure500(res, err);
+    };
+};
+
+exports.getSingle = async (req, res, next) => {
     try {
         const response = await jobModel.aggregate([
             {
