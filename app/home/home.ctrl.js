@@ -1,4 +1,5 @@
 const UserModel = require('../../model/user');
+const JobModel = require('../../model/job');
 const ApiHelper = require('../../api/api_helper');
 const bcrypt = require('bcryptjs');
 
@@ -11,6 +12,13 @@ exports.login = (req, res) => {
     });
 };
 exports.loginPost = async (req, res) => {
+    let dataHash = {
+        data: '',
+        is_error: true,
+        errorMessage: 'Incorrect Password!',
+        isLoggedIn: false,
+        body: req.body
+    };
     try {
         const response = await UserModel.findOne({ email: req.body.email });
         if (response) {
@@ -20,45 +28,80 @@ exports.loginPost = async (req, res) => {
                 res.redirect('logincomplete');
             }
             else {
-                res.render('login', {
-                    data: '',
-                    is_error: true,
-                    errorMessage: 'Incorrect Password!',
-                    isLoggedIn: false,
-                    body: req.body
-                });
+                res.render('login', dataHash);
             } 
             
         }
         else {
-            res.render('login', {
-                data: '',
-                is_error: true,
-                errorMessage: 'User not found!',
-                isLoggedIn: false,
-                body: req.body
-            });
+            dataHash.errorMessage = 'User not found!';
+            res.render('login', dataHash);
         };
     }
     catch(err) {
-        res.render('login', {
-            data: err,
-            is_error: true,
-            errorMessage: 'Something went wrong. Try again!',
-            isLoggedIn: false,
-            body: req.body
-        });
+        dataHash.errorMessage = 'Something went wrong. Try again!';
+        dataHash.data = err;
+        res.render('login', dataHash);
     };
 };
-exports.index = (req, res) => {
-    const isLoggedIn = req.session.token ? true : false;
-    res.render('home', {
-        data: 'Home',
-        isLoggedIn: isLoggedIn
-    });
+exports.job = async (req, res) => {
+    let dataHash = {
+        data: null,
+        isLoggedIn: req.session.token ? true : false
+    }
+    try {
+        const response = await jobModel.aggregate([
+            {
+                $match: { _id: mongoose.Types.ObjectId(req.params.id) }
+            },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'uploader',
+                    foreignField: '_id',
+                    as: 'user'
+                }
+            }
+        ]);
+        dataHash.data = response;
+    }
+    catch(err) {
+        dataHash.data = err;
+    }
+    res.render('job', dataHash);
+};
+exports.index = async (req, res) => {
+    let dataHash = {
+        data: null,
+        isLoggedIn: req.session.token ? true : false,
+        helpers: {
+            dateFormat: (date) => {
+                const createdAt = new Date(date).toDateString().split(' ');
+                return createdAt[1] + ' ' + createdAt[2] + ', ' + createdAt[3];
+            },
+            jsonFormatUserName: (user) => JSON.parse(JSON.stringify(user[0])).name
+        }
+    };
+    try {
+        const response = await JobModel.aggregate([
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'uploader',
+                    foreignField: '_id',
+                    as: 'user'
+                }
+            }
+        ]);
+        dataHash.data = response;
+    }
+    catch(err) {
+        dataHash.data = err;
+    };
+    res.render('home', dataHash);
+    
 };
 exports.featured = (req, res) => {
-    console.log("Token", req.session.token);
+    console.log("Featured Token", req.session.token);
     const isLoggedIn = req.session.token ? true : false;
     res.render('featured', {
         data: 'Featured',
@@ -85,7 +128,7 @@ exports.logout = (req, res) => {
     });
 };
 exports.register = (req, res) => {
-    res.render('register', {
+    res.render('sign-up', {
         data: '',
         is_error: false,
         isLoggedIn: false,
@@ -106,10 +149,11 @@ exports.registerPost = async (req, res) => {
         res.redirect('logincomplete');
     }
     catch(err) {
-        console.log("err-->",err)
-        res.render('register', {
-            data: err,
+        const errorMessage = err.code ? 'Email already exist' : 'Password is required';
+        res.render('sign-up', {
+            data: '',
             is_error: true,
+            errorMessage: errorMessage,
             isLoggedIn: false,
             body: req.body
         });

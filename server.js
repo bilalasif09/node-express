@@ -21,7 +21,7 @@ appRoutes(router);
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.use(session({ 
-        resave: false,
+        resave: true,
         saveUninitialized: true,
         secret: 'dev secret', 
         cookie: {}
@@ -33,5 +33,7 @@ app.use('/api', router);
 
 //Front end routes
 app.use('/', router);
+
+app.use(express.static(__dirname + '/public'));
 
 app.listen(port);

@@ -1,0 +1,12 @@
+.home-block {
+    border: 1px solid #333;
+    padding: 10px;
+    margin: 15px;
+}
+.home-block h5 {
+    margin-bottom: 5px;
+    display: inline-block;
+}
+.block {
+    display: block;
+}

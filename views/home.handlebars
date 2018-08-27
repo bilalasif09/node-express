@@ -1,2 +1,17 @@
 {{> header}}
-<h1>Example App: {{data}}</h1>
+{{#each data}}
+    <div class="home-block">
+        <a href="/job/{{this._id}}">
+            <h5>{{this.title}}</h5>
+        </a>
+        <small class="block">Posted by: 
+            <a href="/user/{{this.uploader}}">{{jsonFormatUserName this.user}}</a>
+        </small>
+        {{#if this.applied.length}}
+            <small>{{this.applied.length}} applicants</small>
+        {{else}}
+            <small>No applicants</small>
+        {{/if}}
+        <small class="block">{{dateFormat this.created_at}}</small>
+    </div>
+{{/each}}
