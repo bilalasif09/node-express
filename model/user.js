@@ -18,6 +18,12 @@ const UserSchema = new Schema({
 		}
 	},
 	password: { type: String, required: [ true, 'Password is required' ] },
+	is_employer: {
+		type: Boolean,
+		required: true
+	},
+	country: String,
+	phone: String,
     created_at: { type: Date, default: new Date }
 });
 module.exports = mongoose.model('users', UserSchema);

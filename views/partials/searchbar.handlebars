@@ -1,0 +1,43 @@
+<div class="search-bar">
+    <div class="container">
+        <div class="row">
+            <div style="display: flex" class="col-md-8 offset-md-2">
+                <div class="search-inner-container">
+                    <input class="search-input" type="text" placeholder="What you are looking for?">
+                    <div class="select-input-wrapper">
+                        <select name="country">
+                            <option selected="selected" value="all">All Countries</option>
+                            <option value="pk">pk</option>
+                            <option value="eng">eng</option>          
+                        </select>
+                    </div>
+                    <div class="select-input-wrapper">
+                        <select name="category">
+                            <option selected="selected" value="all">All Categories</option>
+                            <option value="pk">se</option>
+                            <option value="m">manager</option>          
+                        </select>
+                    </div>
+                    <button class="search-btn btn-cta">Search</button>
+                    <div class="filters">
+                        <label style="margin-left: 0;" class="checkbox-inline"><input type="checkbox" value="">Remote</label>
+                        <label class="checkbox-inline"><input type="checkbox" value="">On site</label>
+                        <label class="checkbox-inline"><input type="checkbox" value="">Part time</label>
+                        <label class="checkbox-inline"><input type="checkbox" value="">Full time</label>
+                        <label class="checkbox-inline"><input type="checkbox" value="">Temporary</label>
+                        <label class="checkbox-inline"><input type="checkbox" value="">Permanent</label>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+    $(function() {
+        $('select').selectize();
+    });
+    
+</script>

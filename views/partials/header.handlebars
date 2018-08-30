@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+{{!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/">Navbar</a>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -18,10 +18,32 @@
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
         {{#if isLoggedIn}}
+            <a href="/postajob" role="button" class="btn btn-outline-success my-2 my-sm-0">Post a job</a>
             <a href="/logout" role="button" class="btn btn-outline-success my-2 my-sm-0">Logout</a>
         {{else}}
             <a href="/login" role="button" class="btn btn-outline-success my-2 my-sm-0">Login</a>
             <a href="/sign-up" role="button" class="btn btn-outline-success my-2 my-sm-0">Sign up</a>
         {{/if}}
+    </div>
+</nav> --}}
+
+<nav class="main-nav" role="navigation">
+    <div class="top-menu">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2 text-center">
+                    <div id="logo"><a href="/">Landing</a></div>
+                </div>
+                <div class="col-md-10 text-right menu-1">
+                    <ul>
+                        <li class="active"><a href="/">Home</a></li>
+                        <li><a href="/featured">Featured</a></li>
+                        <li><a href="/blogs">Blogs</a></li>
+                        <li><a href="/sign-up">Sign Up</a></li>
+                        <li><a href="/login">Login</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </nav>

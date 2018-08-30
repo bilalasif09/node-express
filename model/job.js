@@ -14,6 +14,8 @@ const JobSchema = new Schema({
         type: Schema.Types.ObjectId, 
         ref: 'users'   
     },
+    country: String,
+    is_remote: Boolean,
     interested: [{ type: Schema.Types.ObjectId, ref: 'users' }],
     applied: [{ type: Schema.Types.ObjectId, ref: 'users' }],
     created_at: { type: Date, default: new Date }
