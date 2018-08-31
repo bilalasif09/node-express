@@ -1,14 +1,15 @@
 <div class="search-bar">
     <div class="container">
         <div class="row">
-            <div style="display: flex" class="col-md-8 offset-md-2">
+            <div style="display: flex" class="col-md-12">
                 <div class="search-inner-container">
                     <input class="search-input" type="text" placeholder="What you are looking for?">
                     <div class="select-input-wrapper">
                         <select name="country">
                             <option selected="selected" value="all">All Countries</option>
-                            <option value="pk">pk</option>
-                            <option value="eng">eng</option>          
+                            {{#each countries}}
+                                <option value="{{this.name}}">{{this.name}}</option>
+                            {{/each}}          
                         </select>
                     </div>
                     <div class="select-input-wrapper">

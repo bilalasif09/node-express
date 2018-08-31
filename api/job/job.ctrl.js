@@ -1,83 +1,52 @@
-const jobModel = require('../../model/job');
-const ApiHelper = require('../api_helper');
-const mongoose = require('mongoose');
+const { failure500 } = require('../../helpers/api_helper');
+const { getAllJobs, getSingleJob, createJob, updateJob, applyJob } = require('../../helpers/query_helper_jobs');
 
 exports.getAll = async (req, res, next) => {
     try {
-        const response = await jobModel.find();
+        const response = await getAllJobs();
         next(response);
     }
     catch(err) {
-        ApiHelper.failure500(res, err);
+        failure500(res, err);
     };
 };
 
 exports.getSingle = async (req, res, next) => {
     try {
-        const response = await jobModel.aggregate([
-            {
-                $match: { _id: mongoose.Types.ObjectId(req.body.jobId) }
-            },
-            {
-                $lookup: {
-                    from: 'users',
-                    localField: 'uploader',
-                    foreignField: '_id',
-                    as: 'user'
-                }
-            }
-        ]);
+        const response = await getSingleJob(req.body.jobId);
         next(response);
     }
     catch(err) {
-        ApiHelper.failure500(res, err);
-    }
+        failure500(res, err);
+    };
 };
 
 exports.create = async (req, res, next) => {
-    const jobObj = new jobModel({
-        title: req.body.title,
-        description: req.body.description,
-        uploader: req.userId
-    });
     try {
-        const response = await jobObj.save();
+        const response = await createJob(req.body.title, req.body.description, req.userId);
         next(response);
     }
     catch(err) {
-        ApiHelper.failure500(res, err);
+        failure500(res, err);
     };
 };
 
 exports.update = async (req, res, next) => {
     try {
-        const response = await jobModel.findOneAndUpdate({ _id: req.body.jobId, uploader: req.userId }, 
-        { title: req.body.title, description: req.body.description });
+        const response = await updateJob(req.body.title, req.body.description, req.userId, req.body.jobId);
         next(response);
     }
     catch(err) {
-        ApiHelper.failure500(res, err);
-    };
-};
-
-exports.interest = async (req, res, next) => {
-    try {
-        const response = await jobModel.findOneAndUpdate({ _id: req.body.jobId, uploader: req.userId },
-        { $addToSet: { interested: req.userId } });
-        next(response);
-    }
-    catch(err) {
-        ApiHelper.failure500(res, err);
+        failure500(res, err);
     };
 };
 
 exports.apply = async (req, res, next) => {
     try {
-        const response = await jobModel.findOneAndUpdate({ _id: req.body.jobId, uploader: req.userId },
-        { $addToSet: { applied: req.userId } });
+        const response = await applyJob(req.body.jobId, req.userId);
         next(response);
     }
     catch(err) {
-        ApiHelper.failure500(res, err);
+        failure500(res, err);
     };
 };

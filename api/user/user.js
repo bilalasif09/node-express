@@ -1,10 +1,10 @@
-const userController = require('./user.ctrl');
-const ApiHelper = require('../api_helper');
+const { getUser, updateUser } = require('./user.ctrl');
+const { validateAuthToken, success } = require('../api_helper');
 
 module.exports = (router) => {
 
     router.route('/user')
-    .get(userController.getUser, ApiHelper.success)
-    .patch(ApiHelper.validateAuthToken, userController.updateUser, ApiHelper.success);
+    .get(getUser, success)
+    .patch(validateAuthToken, updateUser, success);
 
 };

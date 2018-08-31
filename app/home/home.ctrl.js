@@ -4,6 +4,8 @@ const ApiHelper = require('../../api/api_helper');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const { dateFormat, jsonFormatUserName } = require('../app_helper');
+const axios = require('axios');
+const { getAllJobs } = require('../../model/query_helper');
 
 exports.postajobPost = async (req, res) => {
     let dataHash = {
@@ -67,27 +69,43 @@ exports.index = async (req, res) => {
     let dataHash = {
         data: null,
         isLoggedIn: req.session.token ? true : false,
+        countries: [],
         helpers: {
             dateFormat: dateFormat,
             jsonFormatUserName: jsonFormatUserName
         }
     };
+    const Promise1 = new Promise( async (resolve, reject) => {
+        try {
+            const restCountries = await axios.get('https://restcountries.eu/rest/v2/all?fields=name')
+            dataHash.countries = restCountries.data;
+            resolve();
+        }
+        catch(err) {
+            console.log("error fetching countries");
+            reject();
+        };
+    });
+    const Promise2 = new Promise( async (resolve, reject) => {
+        try {
+            const response = await getAllJobs();
+            dataHash.data = response;
+            resolve();
+        }
+        catch(err) {
+            dataHash.data = err;
+            reject();
+        };
+    });
     try {
-        const response = await JobModel.aggregate([
-            {
-                $lookup: {
-                    from: 'users',
-                    localField: 'uploader',
-                    foreignField: '_id',
-                    as: 'user'
-                }
-            }
-        ]);
-        dataHash.data = response;
+        await Promise.all([Promise1, Promise2])
     }
-    catch(err) {
+    catch (err) {
+        console.log("Error resolving promises home", err);
         dataHash.data = err;
     };
+    
+    console.log("data Hash", dataHash);
     res.render('home', dataHash);
     
 };

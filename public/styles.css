@@ -121,7 +121,7 @@ a:hover, a:active, a:focus {
 }
 .select-input-wrapper {
     display: inline-block;
-    min-width: 150px;
+    width: 170px;
     vertical-align: top;
     text-align: left;
     font-size: 14px;
@@ -146,6 +146,13 @@ a:hover, a:active, a:focus {
     box-shadow: none;
     border-radius: 5px;
     border: none;
+    padding-right: 2em;
+    display: flex;
+}
+.selectize-input .item {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .btn-primary.btn-outline {
     background: transparent;

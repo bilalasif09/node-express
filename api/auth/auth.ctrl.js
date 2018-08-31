@@ -1,37 +1,37 @@
-const UserModel = require('../../model/user');
-const ApiHelper = require('../api_helper');
-const bcrypt = require('bcryptjs');
+const { createAuthToken, failure401, failure404, failure500 } = require('../../helpers/api_helper');
+const { compareSync, hashSync } = require('bcryptjs');
+const { authLogin, authRegister } = require('../../helpers/query_helper_auth');
 
 exports.login = async (req, res, next) => {
     try {
-        const response = await UserModel.findOne({ email: req.body.email });
+        const response = await authLogin(req.body.email);
         if (response) {
-            bcrypt.compareSync(req.body.password, response.password) 
-            ? next(ApiHelper.createAuthToken(response._id)) 
-            : ApiHelper.failure401(res, {});
+            compareSync(req.body.password, response.password) 
+            ? next(createAuthToken(response._id)) 
+            : failure401(res, {});
         }
         else {
-            ApiHelper.failure404(res, {});
+            failure404(res, {});
         };
     }
     catch(err) {
-        ApiHelper.failure500(res, err);
+        failure500(res, err);
     };
 };
 
 exports.register = async (req, res, next) => {
-    const hashedPassword = req.body.password ? bcrypt.hashSync(req.body.password, 8) : req.body.password;
-    const newUser = new UserModel({
+    const hashedPassword = req.body.password ? hashSync(req.body.password, 8) : req.body.password;
+    const userObj = {
         name: req.body.name,
         email: req.body.email,
         password: hashedPassword
-    });
+    };
     try {
-        const response = await newUser.save();
-        next(ApiHelper.createAuthToken(response._id));
+        const response = await authRegister(userObj);
+        next(createAuthToken(response._id));
     }
     catch(err) {
-        ApiHelper.failure500(res, err);
+        failure500(res, err);
     };
 };
 
