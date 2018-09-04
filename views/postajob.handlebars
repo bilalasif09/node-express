@@ -1,13 +1,166 @@
 {{> header}}
-<h1>Post a job</h1>
-<form action="/postajob" method="POST">
-  <div class="form-group">
-    <label for="exampleInputName">Title</label>
-    <input required type="text" name="title" value="" class="form-control" id="exampleInputName" aria-describedby="nameHelp" placeholder="Enter title">
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Post a job</h1>
+      <form action="/postajob" method="POST">
+        <div class="form-group">
+          <label for="title">Title*</label>
+          <input required type="text" name="title" value="" class="form-control" id="title" placeholder="Enter title">
+        </div>
+        <div class="form-group">
+          <label for="tags">Tags</label>
+          <select id="tags" class="form-control" name="tags[]" multiple="multiple">
+            <option>orange</option>
+            <option>white</option>
+            <option>purple</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="about">Company details*</label>
+          <textarea required name="about" id="about" class="form-control" placeholder="Tell us about the company"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="requirements">Requirements</label>
+          <input type="text" id="requirements" name="requirements[]" class="form-control" placeholder="Add Requirements">
+          <button type="button" onclick="addRequirement()">Add</button>
+          <ul id="requirements-container">
+
+          </ul>
+        </div>
+        <div class="form-group">
+          <label for="responsibilities">Responsibilities</label>
+          <input type="text" id="responsibilities" name="responsibilities[]" class="form-control" placeholder="Add Responsibilities">
+          <button type="button" onclick="addResponsibilities()">Add</button>
+          <ul id="responsibilities-container">
+
+          </ul>
+        </div>
+        <div class="form-group">
+          <label for="offers">Our offer</label>
+          <input type="text" id="offers" name="offers[]" class="form-control" placeholder="Add your offers">
+          <button type="button" onclick="addOffer()">Add</button>
+          <ul id="offers-container">
+
+          </ul>
+        </div>
+        <div class="form-group">
+          <label for="more-about">More about company</label>
+          <textarea name="more-about" id="more-about" class="form-control" placeholder="Tell us more about the company and the role"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="note">Note</label>
+          <textarea name="note" id="note" class="form-control" placeholder="Any special note?"></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" onclick="postJob(event)">Submit</button>
+      </form>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Description</label>
-    <input required type="text" name="description" value="" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter description">
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+</div>
+<script>
+  
+  'use strict';
+
+  var myForm = {
+    title: '',
+    tags: [],
+    about: '',
+    requirements: [],
+    responsibilities: [],
+    offers: [],
+    more: '',
+    note: ''
+  };
+  function postJob(e) {
+    if (validateForm()) {
+      e.preventDefault();
+      setForm();
+      console.log("My Form", myForm);
+    };
+  };
+
+  function setForm() {
+    myForm.title = $('form').find('#title').val();
+    myForm.tags = $('form').find('#tags').val();
+    myForm.about = $('form').find('#about').val();
+    myForm.more = $('form').find('#more-about').val();
+    myForm.note = $('form').find('#note').val();
+  };
+
+  function validateForm() {
+    if (!$('#title').val().trim()) {
+      $('#title').val('');
+    };
+    if (!$('#about').val().trim()) {
+      $('#about').val('');
+    };
+    if ($('#title').val() && $('#about').val()) {
+      return true;
+    } else {
+      return false;
+    };
+  };
+
+  $(function() {
+    
+    $("select").select2({
+      tags: true,
+      placeholder: 'Select or create new'
+      //insertTag: function (data, tag) {
+        // Insert the tag at the end of the results
+        //data.push(tag);
+      //}
+    });
+    
+  });
+
+  function addRequirement() {
+    var value = $('#requirements').val().trim();
+    if (!value) return;
+    myForm.requirements.push(value);
+    var html = '<li>' + value 
+      + '<span id="req-' + myForm.requirements.length 
+      + '" onclick="removeRequirement(this.id)">Remove</span></li>';
+    $('#requirements').val('');
+    $('#requirements-container').append(html);
+  };
+  
+  function removeRequirement(id) {
+    var myId = '#' + id;
+    $(myId).parent().remove();
+  };
+
+  function addResponsibilities() {
+    var value = $('#responsibilities').val().trim();
+    if (!value) return;
+    myForm.responsibilities.push(value);
+    var html = '<li>' + value 
+      + '<span id="req-' + myForm.responsibilities.length 
+      + '" onclick="removeResponsibilities(this.id)">Remove</span></li>';
+    $('#responsibilities').val('');
+    $('#responsibilities-container').append(html);
+  };
+  
+  function removeResponsibilities(id) {
+    var myId = '#' + id;
+    $(myId).parent().remove();
+  };
+
+  function addOffer() {
+    var value = $('#offers').val().trim();
+    if (!value) return;
+    myForm.offers.push(value);
+    var html = '<li>' + value 
+      + '<span id="req-' + myForm.offers.length 
+      + '" onclick="removeOffer(this.id)">Remove</span></li>';
+    $('#offers').val('');
+    $('#offers-container').append(html);
+  };
+  
+  function removeOffer(id) {
+    var myId = '#' + id;
+    $(myId).parent().remove();
+  };
+
+</script>

@@ -1,9 +1,6 @@
-const UserModel = require('../../model/user');
-const JobModel = require('../../model/job');
-const ApiHelper = require('../../api/api_helper');
-const bcrypt = require('bcryptjs');
-const mongoose = require('mongoose');
-const { dateFormat, jsonFormatUserName } = require('../app_helper');
+const { createAuthToken } = require('../../helpers/api_helper');
+const { compareSync, hashSync } = require('bcryptjs');
+const { authLogin, authRegister } = require('../../helpers/query_helper_auth');
 
 exports.login = (req, res) => {
     res.render('login', {
@@ -22,27 +19,23 @@ exports.loginPost = async (req, res) => {
         body: req.body
     };
     try {
-        const response = await UserModel.findOne({ email: req.body.email });
+        const response = await authLogin(req.body.email);
         if (response) {
-            if (bcrypt.compareSync(req.body.password, response.password)) {
-                const token = ApiHelper.createAuthToken(response._id);
+            if (compareSync(req.body.password, response.password)) {
+                const token = createAuthToken(response._id);
                 req.session.token = token;
                 res.redirect('logincomplete');
-            }
-            else {
-                res.render('login', dataHash);
             };
         }
         else {
             dataHash.errorMessage = 'User not found!';
-            res.render('login', dataHash);
         };
     }
     catch(err) {
         dataHash.errorMessage = 'Something went wrong. Try again!';
         dataHash.data = err;
-        res.render('login', dataHash);
     };
+    res.render('login', dataHash);
 };
 exports.logout = (req, res) => {
     req.session.destroy((err) => {
@@ -58,15 +51,15 @@ exports.register = (req, res) => {
     });
 };
 exports.registerPost = async (req, res) => {
-    const hashedPassword = req.body.password ? bcrypt.hashSync(req.body.password, 8) : req.body.password;
-    const newUser = new UserModel({
+    const hashedPassword = req.body.password ? hashSync(req.body.password, 8) : req.body.password;
+    const newUser = {
         name: req.body.name,
         email: req.body.email,
         password: hashedPassword
-    });
+    };
     try {
-        const response = await newUser.save();
-        const token = ApiHelper.createAuthToken(response._id);
+        const response = await authRegister(newUser);
+        const token = createAuthToken(response._id);
         req.session.token = token;
         res.redirect('logincomplete');
     }

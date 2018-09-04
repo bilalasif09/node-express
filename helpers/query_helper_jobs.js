@@ -1,4 +1,4 @@
-const JobModel = require('./job');
+const JobModel = require('../model/job');
 const mongoose = require('mongoose');
 
 exports.getAllJobs = async () => {
@@ -16,7 +16,7 @@ exports.getAllJobs = async () => {
     } 
     catch (err) {
         console.log("Error fetching jobs", err);
-        return -1;
+        return false;
     };
 };
 
@@ -38,8 +38,8 @@ exports.getSingleJob = async (jobId) => {
     }
     catch (err) {
         console.log("Error fetching single job", err);
-        return -1;
-    }
+        return false;
+    };
 };
 
 exports.createJob = async (title, description, userId) => {
@@ -53,7 +53,7 @@ exports.createJob = async (title, description, userId) => {
     }
     catch (err) {
         console.log("Error saving job", err);
-        return -1;
+        return false;
     };
 };
 
@@ -64,7 +64,7 @@ exports.updateJob = async (title, description, userId, jobId) => {
     }
     catch (err) {
         console.log("Error updating job", err);
-        return -1;
+        return false;
     };  
 };
 
@@ -75,6 +75,6 @@ exports.applyJob = async (jobId, userId) => {
     }
     catch (err) {
         console.log("Error applying to job", err);
-        return -1
+        return false;
     };
 };   

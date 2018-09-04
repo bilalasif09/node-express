@@ -1,12 +1,14 @@
-const authController = require('./auth.ctrl');
+const { login, loginPost, logout, register, registerPost, loginComplete } = require('./auth.ctrl');
 
 module.exports = (router) => {
     
-    router.get('/login', authController.login);
-    router.post('/login', authController.loginPost);
-    router.get('/logout', authController.logout);
-    router.get('/sign-up', authController.register);
-    router.post('/sign-up', authController.registerPost);
-    router.get('/logincomplete', authController.loginComplete);
+    router.route('/login')
+    .get(login)
+    .post(loginPost);
+    router.get('/logout', logout);
+    router.route('/sign-up')
+    .get(register)
+    .post(registerPost);
+    router.get('/logincomplete', loginComplete);
 
 };

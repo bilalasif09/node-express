@@ -1,5 +1,5 @@
 const { login, register } = require('./auth.ctrl');
-const { success } = require('../api_helper');
+const { success } = require('../../helpers/api_helper');
 
 module.exports = (router) => {
 

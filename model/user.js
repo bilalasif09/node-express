@@ -18,9 +18,9 @@ const UserSchema = new Schema({
 		}
 	},
 	password: { type: String, required: [ true, 'Password is required' ] },
-	is_employer: {
+	is_company: {
 		type: Boolean,
-		required: true
+		default: false
 	},
 	country: String,
 	phone: String,

@@ -1,5 +1,5 @@
 const { getAll, getSingle, create, update, apply } = require('./job.ctrl');
-const { validateAuthToken, success } = require('../api_helper');
+const { validateAuthToken, success } = require('../../helpers/api_helper');
 
 module.exports = (router) => {
     router.route('/job')

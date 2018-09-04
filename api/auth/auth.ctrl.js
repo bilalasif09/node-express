@@ -1,5 +1,5 @@
-const { createAuthToken, failure401, failure404, failure500 } = require('../../helpers/api_helper');
-const { compareSync, hashSync } = require('bcryptjs');
+const { createAuthToken, failure401, failure404, failure500, encodeAndValidatePassword } = require('../../helpers/api_helper');
+const { compareSync } = require('bcryptjs');
 const { authLogin, authRegister } = require('../../helpers/query_helper_auth');
 
 exports.login = async (req, res, next) => {
@@ -20,11 +20,10 @@ exports.login = async (req, res, next) => {
 };
 
 exports.register = async (req, res, next) => {
-    const hashedPassword = req.body.password ? hashSync(req.body.password, 8) : req.body.password;
     const userObj = {
         name: req.body.name,
         email: req.body.email,
-        password: hashedPassword
+        password: encodeAndValidatePassword(req.body.password)
     };
     try {
         const response = await authRegister(userObj);

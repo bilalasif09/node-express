@@ -6,17 +6,20 @@ const JobSchema = new Schema({
         type: String,
         required: [true, 'Title is required']
     },
-    description: {
-        type: String,
-        required: [true, 'Description is required']
-    },
+    tags: [String],
     uploader: { 
         type: Schema.Types.ObjectId, 
         ref: 'users'   
     },
     country: String,
-    is_remote: Boolean,
-    interested: [{ type: Schema.Types.ObjectId, ref: 'users' }],
+    is_remote: {
+        type: Boolean,
+        default: false
+    },
+    is_active: {
+        type: Boolean,
+        default: true
+    },
     applied: [{ type: Schema.Types.ObjectId, ref: 'users' }],
     created_at: { type: Date, default: new Date }
 });

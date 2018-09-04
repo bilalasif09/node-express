@@ -8,6 +8,14 @@ exports.updateUser = async (userId, requestBody) => {
     }
     catch (err) {
         console.log("Error updating user", err);
-        return -1;
+        return false;
+    };
+};
+exports.getSingleUser = async (userId) => {
+    try {
+        return await UserModel.findById(userId);
+    }
+    catch(err) {
+        console.log("Error fetching user", err);
     };
 };

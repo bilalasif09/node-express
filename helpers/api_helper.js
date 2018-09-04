@@ -1,6 +1,10 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config');
+const { hashSync } = require('bcryptjs');
 
+exports.encodeAndValidatePassword = (password) => {
+    return password ? hashSync(password, 8) : password;
+};
 exports.createAuthToken = (id) => {
     return jwt.sign(
         { id: id },

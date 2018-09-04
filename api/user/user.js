@@ -1,5 +1,5 @@
 const { getUser, updateUser } = require('./user.ctrl');
-const { validateAuthToken, success } = require('../api_helper');
+const { validateAuthToken, success } = require('../../helpers/api_helper');
 
 module.exports = (router) => {
 
