@@ -1,4 +1,5 @@
 const JobModel = require('../model/job');
+const JobDetailModel = require('../model/jobdetail');
 const mongoose = require('mongoose');
 
 exports.getAllJobs = async () => {
@@ -42,17 +43,53 @@ exports.getSingleJob = async (jobId) => {
     };
 };
 
-exports.createJob = async (title, description, userId) => {
-    const jobObj = new jobModel({
-        title: title,
-        description: description,
+exports.createJob = async (requestBody, userId) => {
+    if (!requestBody.title || !requestBody.about)
+        return false;
+    const jobId = new mongoose.Types.ObjectId();
+    const jobObj = new JobModel({
+        _id: jobId,
+        title: requestBody.title,
+        tags: requestBody.tags,
+        is_remote: requestBody.is_remote,
+        country: requestBody.country,
         uploader: userId
     });
+    const jobDetailObj = new JobDetailModel({
+        job_id: jobId,
+        about: requestBody.about,
+        requirements: requestBody.requirements,
+        responsibilities: requestBody.responsibilities,
+        offer: requestBody.offer,
+        more_details: requestBody.more_details,
+        note: requestBody.note
+    });
+    const promise1 = new Promise( async (resolve, reject) => {
+        try {
+            await jobObj.save();
+            resolve();
+        }
+        catch (err) {
+            console.log("Error saving job", err);
+            reject();
+        };
+    });
+    const promise2 = new Promise( async (resolve, reject) => {
+        try {
+            await jobDetailObj.save();
+            resolve();
+        }
+        catch (err) {
+            console.log("Error saving jobdetail", err);
+            reject();
+        };
+    });
     try {
-        return await jobObj.save();
+        return await Promise.all([promise1, promise2]);
     }
     catch (err) {
-        console.log("Error saving job", err);
+        console.log("Error resolving promises", err);
+
         return false;
     };
 };

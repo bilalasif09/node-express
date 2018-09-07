@@ -13,6 +13,7 @@ const JobDetailSchema = new Schema({
     requirements: [String],
     responsibilities: [String],
     offer: [String],
-    more_details: String
+    more_details: String,
+    note: String
 });
 module.exports = mongoose.model('jobdetails', JobDetailSchema);

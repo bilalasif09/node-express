@@ -81,11 +81,11 @@
   };
 
   function setForm() {
-    myForm.title = $('form').find('#title').val();
-    myForm.tags = $('form').find('#tags').val();
-    myForm.about = $('form').find('#about').val();
-    myForm.more = $('form').find('#more-about').val();
-    myForm.note = $('form').find('#note').val();
+    myForm.title = $('#title').val();
+    myForm.tags = $('#tags').val();
+    myForm.about = $('#about').val();
+    myForm.more = $('#more-about').val();
+    myForm.note = $('#note').val();
   };
 
   function validateForm() {
@@ -121,14 +121,9 @@
     myForm.requirements.push(value);
     var html = '<li>' + value 
       + '<span id="req-' + myForm.requirements.length 
-      + '" onclick="removeRequirement(this.id)">Remove</span></li>';
+      + '" onclick="removeById(this.id)">Remove</span></li>';
     $('#requirements').val('');
     $('#requirements-container').append(html);
-  };
-  
-  function removeRequirement(id) {
-    var myId = '#' + id;
-    $(myId).parent().remove();
   };
 
   function addResponsibilities() {
@@ -136,15 +131,10 @@
     if (!value) return;
     myForm.responsibilities.push(value);
     var html = '<li>' + value 
-      + '<span id="req-' + myForm.responsibilities.length 
-      + '" onclick="removeResponsibilities(this.id)">Remove</span></li>';
+      + '<span id="res-' + myForm.responsibilities.length 
+      + '" onclick="removeById(this.id)">Remove</span></li>';
     $('#responsibilities').val('');
     $('#responsibilities-container').append(html);
-  };
-  
-  function removeResponsibilities(id) {
-    var myId = '#' + id;
-    $(myId).parent().remove();
   };
 
   function addOffer() {
@@ -152,13 +142,13 @@
     if (!value) return;
     myForm.offers.push(value);
     var html = '<li>' + value 
-      + '<span id="req-' + myForm.offers.length 
+      + '<span id="off-' + myForm.offers.length 
       + '" onclick="removeOffer(this.id)">Remove</span></li>';
     $('#offers').val('');
     $('#offers-container').append(html);
   };
   
-  function removeOffer(id) {
+  function removeById(id) {
     var myId = '#' + id;
     $(myId).parent().remove();
   };
