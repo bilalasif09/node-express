@@ -89,7 +89,6 @@ exports.createJob = async (requestBody, userId) => {
     }
     catch (err) {
         console.log("Error resolving promises", err);
-
         return false;
     };
 };

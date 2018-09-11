@@ -22,9 +22,10 @@ exports.getSingle = async (req, res, next) => {
 };
 
 exports.create = async (req, res, next) => {
+    console.log("creating job", req.body);
     try {
         const response = await createJob(req.body, req.userId);
-        response ? next(response) : failure500(res, 'title and about fields are required');
+        response ? next(response) : failure500(res, {});
     }
     catch(err) {
         failure500(res, err);

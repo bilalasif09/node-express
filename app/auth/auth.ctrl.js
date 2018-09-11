@@ -23,8 +23,9 @@ exports.loginPost = async (req, res) => {
         if (response) {
             if (compareSync(req.body.password, response.password)) {
                 const token = createAuthToken(response._id);
-                req.session.token = token;
-                res.redirect('logincomplete');
+                req.headers['x-access-token'] = token;
+                console.log("Login token", req.headers['x-access-token']);
+                dataHash.is_error = false;
             };
         }
         else {
@@ -35,7 +36,7 @@ exports.loginPost = async (req, res) => {
         dataHash.errorMessage = 'Something went wrong. Try again!';
         dataHash.data = err;
     };
-    res.render('login', dataHash);
+    dataHash.is_error ? res.render('login', dataHash) : res.redirect('logincomplete');
 };
 exports.logout = (req, res) => {
     req.session.destroy((err) => {

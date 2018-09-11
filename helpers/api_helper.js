@@ -14,6 +14,7 @@ exports.createAuthToken = (id) => {
 };
 exports.validateAuthToken = (req, res, next) => {
     const token = req.headers['x-access-token'];
+    console.log("validating token", token);
     if (!token) failure404(res, {});
     jwt.verify(token, config.secret, (err, decoded) => {
         if (err) {
