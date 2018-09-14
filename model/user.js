@@ -17,12 +17,24 @@ const UserSchema = new Schema({
 			"message": "{VALUE} is not a valid email"
 		}
 	},
-	password: { type: String, required: [ true, 'Password is required' ] },
+	password: { 
+		type: String, 
+		required: [ true, 'Password is required' ], 
+		validate: {
+			validator: (v) => {
+				if (v.length<4) return false;
+				else return true;
+			},
+			"message": "Password length must be atleast 4 characters"
+		}
+	},
 	is_company: {
 		type: Boolean,
 		default: false
 	},
 	country: String,
+	image: String,
+	cv: String,
 	phone: String,
     created_at: { type: Date, default: new Date }
 });

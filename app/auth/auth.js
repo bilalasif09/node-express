@@ -2,13 +2,8 @@ const { login, loginPost, logout, register, registerPost, loginComplete } = requ
 
 module.exports = (router) => {
     
-    router.route('/login')
-    .get(login)
-    .post(loginPost);
+    router.get('/login', login);
     router.get('/logout', logout);
-    router.route('/sign-up')
-    .get(register)
-    .post(registerPost);
-    router.get('/logincomplete', loginComplete);
+    router.get('/sign-up', register);
 
 };

@@ -1,20 +1,15 @@
 const { jsonFormatUserName } = require('../../helpers/app_helper');
 const { getSingleJob } = require('../../helpers/query_helper_jobs');
 
-exports.postajobPost = async (req, res) => {
-    console.log("Post job", req.body);
-    let dataHash = {
-        data: null,
-        isLoggedIn: req.session.token ? true : false
-    };
-    res.render('postajob', dataHash);
-};
 exports.postajob = async (req, res) => {
     let dataHash = {
         data: null,
         isLoggedIn: req.session.token ? true : false
     };
-    res.render('postajob', dataHash);
+    if (dataHash.isLoggedIn)
+        res.render('postajob', dataHash);
+    else 
+        res.redirect('/');
 };
 exports.job = async (req, res) => {
     let dataHash = {

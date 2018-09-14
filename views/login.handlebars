@@ -1,18 +1,53 @@
 {{> header}}
-{{#if is_error}}
-    <div class="alert alert-danger" role="alert">
-        {{errorMessage}}
-    </div>
-{{/if}}
+<div class="alert alert-danger d-none" role="alert">
+    
+</div>
 <h1>Login</h1>
-<form action="/login" method="POST">
+<form action="/login" method="POST" onsubmit="login(event)">
   <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" name="email" value="{{body.email}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+    <label for="email">Email address</label>
+    <input required type="email" name="email" value="{{body.email}}" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" name="password" value="{{body.password}}" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    <label for="password">Password</label>
+    <input required minlength="4" type="password" name="password" value="{{body.password}}" class="form-control" id="password" placeholder="Password">
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+<script>
+
+  'use strict';
+
+  var myForm = {
+    email: '', password: ''
+  };
+
+  function login(e) {
+
+    if (validateForm()) {
+      e.preventDefault();
+      putData('http://localhost:3001/api/login', myForm)
+      .then(data => loginRegisterCallback(data, 'login')) // JSON-string from `response.json()` call
+      .catch(error => console.error(error));
+    };
+
+  };
+
+  function validateForm() {
+    myForm.email = $('#email').val();
+    myForm.password = $('#password').val();
+
+    if (!myForm.email.trim() || myForm.password.length < 4) { // if either is empty return false
+      
+      if (myForm.email != myForm.email.trim() && !myForm.email.trim()) // if blank spaces exist only
+        $('#email').val('');
+      
+      return false;
+    
+    } else {
+      return true;
+    };
+  };
+
+</script>

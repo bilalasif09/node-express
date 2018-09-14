@@ -24,16 +24,21 @@ exports.validateAuthToken = (req, res, next) => {
         next();
     });
 };
+exports.saveSession = (token, req, res, next) => {
+    req.session.token = token;
+    console.log("Saving session token", req.session.token);
+    next(token);
+};
 exports.success = (response, req, res, next) => {
-    res.status(200).send({ auth: true, response: response, message: 'Success' });
+    res.status(200).send({ auth: true, response: response, message: 'Success', status: 200 });
 };
 exports.failure500 = (res, err) => {
-    res.status(500).send({ error: err, auth: false, message: 'Something went wrong!' });
+    res.status(500).send({ error: err, auth: false, message: 'Something went wrong!', status: 500 });
 };
 exports.failure404 = (res, err) => {
-    res.status(404).send({ error: err, auth: false, message: 'Not found!' });
+    res.status(404).send({ error: err, auth: false, message: 'Not found!', status: 404 });
 };
 exports.failure401 = (res, err) => {
-    res.status(401).send({ error: err, auth: false, message: 'Authentication failed!' });
+    res.status(401).send({ error: err, auth: false, message: 'Authentication failed!', status: 401 });
 };
 

@@ -1,9 +1,9 @@
 const { login, register } = require('./auth.ctrl');
-const { success } = require('../../helpers/api_helper');
+const { saveSession, success } = require('../../helpers/api_helper');
 
 module.exports = (router) => {
 
-    router.put('/login', login, success);
+    router.put('/login', login, saveSession, success);
     router.post('/register', register, success);
     
 };

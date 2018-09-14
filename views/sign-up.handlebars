@@ -1,22 +1,74 @@
 {{> header}}
-{{#if is_error}}
-    <div class="alert alert-danger" role="alert">
-        {{errorMessage}}
-    </div>
-{{/if}}
-<h1>Register</h1>
-<form action="/sign-up" method="POST">
+<div class="alert alert-danger d-none" role="alert">
+  
+</div>
+<h1>Sign up</h1>
+<form action="/sign-up" method="POST" onsubmit="signup(event)">
   <div class="form-group">
-    <label for="exampleInputName">Name</label>
-    <input type="text" name="name" value="{{body.name}}" class="form-control" id="exampleInputName" aria-describedby="nameHelp" placeholder="Enter name">
+    <label for="name">Name / Company name</label>
+    <input required type="text" name="name" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Enter name">
   </div>
   <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" name="email" value="{{body.email}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+    <label for="email">Email address</label>
+    <input required type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" name="password" value="{{body.password}}" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    <label for="password">Password</label>
+    <input required minlength="4" type="password" name="password" class="form-control" id="password" placeholder="Password">
+  </div>
+  <div class="form-group">
+    <label for="image">Upload Photo / Company logo</label>
+    <input type="file" name="image" class="form-control" id="image" placeholder="Upload image">
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+<script>
+
+  'use strict';
+
+  var myForm = new FormData(), name, email, password, image;
+
+  function signup(e) {
+     
+    if (validateForm()) {
+      
+      e.preventDefault();  
+      setForm();  
+      
+      postFormData('http://localhost:3001/api/register', myForm)
+      .then(data => loginRegisterCallback(data, 'reg')) // JSON-string from `response.json()` call
+      .catch(error => console.error(error));
+    
+    };
+
+  };
+
+  function setForm() {
+    myForm.append('name', name);
+    myForm.append('email', email);
+    myForm.append('password', password);
+    myForm.append('image', image.files[0]);
+  };
+
+  function validateForm() {
+    
+    name = $('#name').val(), email = $('#email').val(), password = $('#password').val(),
+     image = document.getElementById('image');
+
+    if (!name.trim() || !email.trim() || password.length < 4) { // if either is empty return false
+      
+      if (email != email.trim() && !email.trim()) // if blank spaces exist only
+        $('#email').val('');
+
+      if (name != name.trim() && !name.trim()) // if blank spaces exist only
+        $('#name').val('');
+      
+      return false;
+    
+    } else {
+      return true;
+    };
+  };
+
+</script>
