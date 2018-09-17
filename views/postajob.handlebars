@@ -1,8 +1,8 @@
 {{> header}}
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
-      <h1>Post a job</h1>
+    <div class="col-md-6 col-sm-8 col-xs-12 offset-md-3 offset-sm-2 mt-3">
+      <h2 class="mb-3">Post a job</h2>
       <form action="/postajob" method="POST">
         <div class="form-group">
           <label for="title">Title*</label>
@@ -53,7 +53,7 @@
           <textarea name="note" id="note" class="form-control" placeholder="Any special note?"></textarea>
         </div>
         
-        <button type="submit" class="btn btn-primary" onclick="postJob(event)">Submit</button>
+        <button type="submit" class="btn btn-primary border-0" onclick="postJob(event)">Submit</button>
       </form>
     </div>
   </div>

@@ -23,7 +23,7 @@ exports.getAllJobs = async () => {
 
 exports.getSingleJob = async (jobId) => {
     try {
-        return await jobModel.aggregate([
+        return await JobModel.aggregate([
             {
                 $match: { _id: mongoose.Types.ObjectId(jobId) }
             },
@@ -33,6 +33,14 @@ exports.getSingleJob = async (jobId) => {
                     localField: 'uploader',
                     foreignField: '_id',
                     as: 'user'
+                }
+            },
+            {
+                $lookup: {
+                    from: 'jobdetails',
+                    localField: '_id',
+                    foreignField: 'job_id',
+                    as: 'jobdetails'
                 }
             }
         ]);

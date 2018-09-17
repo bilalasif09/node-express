@@ -18,6 +18,7 @@
     "express-session": "^1.15.6",
     "formidable": "^1.2.1",
     "jsonwebtoken": "^8.3.0",
-    "mongoose": "^5.2.6"
+    "mongoose": "^5.2.6",
+    "timeago.js": "^3.0.2"
   }
 }

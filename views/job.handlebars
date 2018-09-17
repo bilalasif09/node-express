@@ -1,4 +1,71 @@
 {{> header}}
-<span>{{jsonFormatUserName data.user}}</span>
-<h1>{{data.title}}</h1>
-<p>{{data.description}}</p>
+<div class="container bg-white">
+    <div class="row">
+        <div class="col-md-12 mt-3">
+            {{#if isError}}
+                <div class="alert alert-danger" role="alert">
+                    Error fetching job
+                </div>
+            {{else}}
+                <div class="home-block">
+                    <div class="half-width-flex">
+                        <a href="/user/{{data.uploader}}">
+                            <div class="profile-image" style="background-image: url(/{{getUserDetails data.user '_id'}}_{{getUserDetails data.user 'image'}});">
+                            </div>
+                        </a>
+                        <div class="titles">
+                            <a href="/job/{{data._id}}">
+                                {{data.title}}
+                            </a>
+                            <a href="/user/{{data.uploader}}">{{getUserDetails data.user 'name'}}</a>
+                        </div>
+                    </div>
+                    <div class="half-width-flex tags-date-block">
+                        {{#if data.tags.length}}
+                            <div class="tags">
+                                {{#each data.tags}}
+                                    <a href="/search?keywords={{this}}">{{this}}</a>
+                                {{/each}}
+                            </div>
+                        {{/if}}
+                        <small>{{dateFormat data.created_at}}</small>
+                    </div>
+                </div>
+                <div class="job-detail-inner-content">
+                    <h3>About the company:</h3>
+                    <p>{{getJobDetails data.jobdetails 'about' }}</p>
+                    {{#if requirements.length}}
+                        <h3>Requirements:</h3>
+                        <ul>
+                            {{#each requirements}}
+                                <li>{{this}}</li>
+                            {{/each}}
+                        </ul>
+                    {{/if}}
+                    {{#if responsibilities.length}}
+                        <h3>Responsibilities:</h3>
+                        <ul>
+                            {{#each responsibilities}}
+                                <li>{{this}}</li>
+                            {{/each}}
+                        </ul>
+                    {{/if}}
+                    {{#if offer.length}}
+                        <h3>What we offer?</h3>
+                        <ul>
+                            {{#each offer}}
+                                <li>{{this}}</li>
+                            {{/each}}
+                        </ul>
+                    {{/if}}
+                    {{#if note}}
+                        <h3>Note:</h3>
+                        <p>{{note}}</p>
+                    {{/if}}
+                </div>
+            {{/if}}
+        </div>
+    </div>
+</div>
+
+

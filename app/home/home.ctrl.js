@@ -1,4 +1,4 @@
-const { dateFormat, jsonFormatUserName } = require('../../helpers/app_helper');
+const { dateFormat, getUserDetails } = require('../../helpers/app_helper');
 const { getAllJobs } = require('../../helpers/query_helper_jobs');
 
 exports.index = async (req, res) => {
@@ -8,12 +8,13 @@ exports.index = async (req, res) => {
         isLoggedIn: req.session.token ? true : false,
         helpers: {
             dateFormat: dateFormat,
-            jsonFormatUserName: jsonFormatUserName
+            getUserDetails: getUserDetails
         }
     };
     try {
         const response = await getAllJobs();
-        dataHash.data = response;
+        console.log("Home response", response);
+        dataHash.data = response.reverse();
     }
     catch(err) {
         dataHash.data = err;

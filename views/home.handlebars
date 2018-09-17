@@ -1,18 +1,33 @@
 {{> header}}
-{{> searchbar}}
-{{#each data}}
-    <div class="home-block">
-        <a href="/job/{{this._id}}">
-            <h5>{{this.title}}</h5>
-        </a>
-        <small class="block">Posted by: 
-            <a href="/user/{{this.uploader}}">{{jsonFormatUserName this.user}}</a>
-        </small>
-        {{#if this.applied.length}}
-            <small>{{this.applied.length}} applicants</small>
-        {{else}}
-            <small>No applicants</small>
-        {{/if}}
-        <small class="block">{{dateFormat this.created_at}}</small>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            {{#each data}}
+                <div class="home-block">
+                    <div class="half-width-flex">
+                        <a href="/user/{{this.uploader}}">
+                            <div class="profile-image" style="background-image: url(/{{getUserDetails this.user '_id'}}_{{getUserDetails this.user 'image'}});">
+                            </div>
+                        </a>
+                        <div class="titles">
+                            <a href="/job/{{this._id}}">
+                                {{this.title}}
+                            </a>
+                            <a href="/user/{{this.uploader}}">{{getUserDetails this.user 'name'}}</a>
+                        </div>
+                    </div>
+                    <div class="half-width-flex tags-date-block">
+                        {{#if this.tags.length}}
+                            <div class="tags">
+                                {{#each this.tags}}
+                                    <a href="/search?keywords={{this}}">{{this}}</a>
+                                {{/each}}
+                            </div>
+                        {{/if}}
+                        <small>{{dateFormat this.created_at}}</small>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
     </div>
-{{/each}}
+</div>

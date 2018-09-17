@@ -1,19 +1,26 @@
 {{> header}}
-<div class="alert alert-danger d-none" role="alert">
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-sm-8 col-xs-12 offset-md-3 offset-sm-2 mt-3">
+      <div class="alert alert-danger d-none" role="alert">
     
+      </div>
+      <h2 class="mb-3">Login</h2>
+      <form action="/login" method="POST" onsubmit="login(event)">
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input required type="email" name="email" value="{{body.email}}" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input required minlength="4" type="password" name="password" value="{{body.password}}" class="form-control" id="password" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary border-0">Submit</button>
+      </form>
+    </div>
+  </div>
 </div>
-<h1>Login</h1>
-<form action="/login" method="POST" onsubmit="login(event)">
-  <div class="form-group">
-    <label for="email">Email address</label>
-    <input required type="email" name="email" value="{{body.email}}" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
-  </div>
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input required minlength="4" type="password" name="password" value="{{body.password}}" class="form-control" id="password" placeholder="Password">
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+
 
 <script>
 
