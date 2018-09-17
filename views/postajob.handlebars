@@ -1,5 +1,5 @@
 {{> header}}
-<div class="container">
+<div class="container bg-white">
   <div class="row">
     <div class="col-md-6 col-sm-8 col-xs-12 offset-md-3 offset-sm-2 mt-3">
       <h2 class="mb-3">Post a job</h2>
@@ -20,26 +20,26 @@
           <label for="about">Company details*</label>
           <textarea required name="about" id="about" class="form-control" placeholder="Tell us about the company"></textarea>
         </div>
-        <div class="form-group">
+        <div class="form-group postjob-list">
           <label for="requirements">Requirements</label>
           <input type="text" id="requirements" name="requirements[]" class="form-control" placeholder="Add Requirements">
-          <button type="button" onclick="addRequirement()">Add</button>
+          <button type="button" class="btn btn-primary border-0 full-width mt-2" onclick="addRequirement()">Add</button>
           <ul id="requirements-container">
 
           </ul>
         </div>
-        <div class="form-group">
+        <div class="form-group postjob-list">
           <label for="responsibilities">Responsibilities</label>
           <input type="text" id="responsibilities" name="responsibilities[]" class="form-control" placeholder="Add Responsibilities">
-          <button type="button" onclick="addResponsibilities()">Add</button>
+          <button type="button" class="btn btn-primary border-0 full-width mt-2" onclick="addResponsibilities()">Add</button>
           <ul id="responsibilities-container">
 
           </ul>
         </div>
-        <div class="form-group">
+        <div class="form-group postjob-list">
           <label for="offers">Our offer</label>
           <input type="text" id="offers" name="offers[]" class="form-control" placeholder="Add your offers">
-          <button type="button" onclick="addOffer()">Add</button>
+          <button type="button" class="btn btn-primary border-0 full-width mt-2" onclick="addOffer()">Add</button>
           <ul id="offers-container">
 
           </ul>
@@ -53,7 +53,7 @@
           <textarea name="note" id="note" class="form-control" placeholder="Any special note?"></textarea>
         </div>
         
-        <button type="submit" class="btn btn-primary border-0" onclick="postJob(event)">Submit</button>
+        <button type="submit" class="btn btn-primary border-0 full-width mt-2" onclick="postJob(event)">Submit</button>
       </form>
     </div>
   </div>
@@ -115,9 +115,9 @@
     var value = $('#requirements').val().trim();
     if (!value) return;
     myForm.requirements.push(value);
-    var html = '<li>' + value 
+    var html = '<li><div class="d-flex justify-content-between">' + value 
       + '<span id="req-' + myForm.requirements.length 
-      + '" onclick="removeById(this.id)">Remove</span></li>';
+      + '" onclick="removeById(this.id)">Remove</span></div></li>';
     $('#requirements').val('');
     $('#requirements-container').append(html);
   };
@@ -126,9 +126,9 @@
     var value = $('#responsibilities').val().trim();
     if (!value) return;
     myForm.responsibilities.push(value);
-    var html = '<li>' + value 
+    var html = '<li><div class="d-flex justify-content-between">' + value 
       + '<span id="res-' + myForm.responsibilities.length 
-      + '" onclick="removeById(this.id)">Remove</span></li>';
+      + '" onclick="removeById(this.id)">Remove</span></div></li>';
     $('#responsibilities').val('');
     $('#responsibilities-container').append(html);
   };
@@ -137,16 +137,16 @@
     var value = $('#offers').val().trim();
     if (!value) return;
     myForm.offers.push(value);
-    var html = '<li>' + value 
+    var html = '<li><div class="d-flex justify-content-between">' + value 
       + '<span id="off-' + myForm.offers.length 
-      + '" onclick="removeOffer(this.id)">Remove</span></li>';
+      + '" onclick="removeOffer(this.id)">Remove</span></div></li>';
     $('#offers').val('');
     $('#offers-container').append(html);
   };
   
   function removeById(id) {
     var myId = '#' + id;
-    $(myId).parent().remove();
+    $(myId).parent().parent().remove();
   };
 
 </script>

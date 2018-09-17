@@ -1,6 +1,7 @@
 body {
     background-color: #f7f7f7;
 }
+.full-width { width: 100%; }
 .home-block {
     border: 1px solid rgba(0,0,0,0.1);
     padding: 10px;
@@ -26,11 +27,15 @@ body {
 }
 .titles a {
     display: block;
+    font-size: 0.9rem;
     color: #000;
 }
 .titles a:first-child {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: bold;
+}
+.tags {
+    max-width: 75%;
 }
 .tags a {
     padding: 5px;
@@ -40,7 +45,7 @@ body {
     text-transform: uppercase;
     font-size: 0.75em;
     font-weight: bold;
-    line-height: 35px;
+    line-height: 40px;
 }
 .tags a:hover {
     text-decoration: none;
@@ -91,14 +96,23 @@ body {
 }
 .main-nav li {
     padding: 8px 0;
-    margin: 0;
+    margin: 0 0 0 10px;
     list-style: none;
     display: inline;
     font-weight: 400;
-    font-family: "Poppins", Arial, sans-serif;
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 5px;
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
 }
-.main-nav ul li a:hover {
+.main-nav ul li:hover > a {
     color: #a2dc4d;
+    text-decoration: none;
+    border-color: #a2dc4d;
+}
+.main-nav ul li:hover {
+    border-color: #a2dc4d;
 }
 .main-nav ul li.active > a {
     color: #a2dc4d !important;
@@ -195,4 +209,21 @@ body {
 .btn-primary.btn-outline:hover, .btn-primary.btn-outline:focus, .btn-primary.btn-outline:active {
     background: #a2dc4d;
     color: #fff;
+}
+.postjob-list ul li {
+    margin-top: 10px;
+}
+.postjob-list ul li span {
+    float: right;
+    color: #007bff;
+    cursor: pointer;
+}
+.postjob-list ul li span:hover {
+    color: #0027ff;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+    padding: 0 10px!important;
+}
+.select2-container--default .select2-selection--multiple {
+    border: 1px solid #ced4da!important;
 }
