@@ -31,41 +31,93 @@
                         <small>{{dateFormat data.created_at}}</small>
                     </div>
                 </div>
-                <div class="job-detail-inner-content">
-                    <h3>About the company:</h3>
-                    <p>{{getJobDetails data.jobdetails 'about' }}</p>
-                    {{#if requirements.length}}
-                        <h3>Requirements:</h3>
-                        <ul>
-                            {{#each requirements}}
-                                <li>{{this}}</li>
-                            {{/each}}
-                        </ul>
-                    {{/if}}
-                    {{#if responsibilities.length}}
-                        <h3>Responsibilities:</h3>
-                        <ul>
-                            {{#each responsibilities}}
-                                <li>{{this}}</li>
-                            {{/each}}
-                        </ul>
-                    {{/if}}
-                    {{#if offer.length}}
-                        <h3>What we offer?</h3>
-                        <ul>
-                            {{#each offer}}
-                                <li>{{this}}</li>
-                            {{/each}}
-                        </ul>
-                    {{/if}}
-                    {{#if note}}
-                        <h3>Note:</h3>
-                        <p>{{note}}</p>
-                    {{/if}}
+                <div class="job-detail-inner-content d-flex justify-content-around">
+                    <div class="half-width">
+                        <h3>About the company:</h3>
+                        <p>{{getJobDetails data.jobdetails 'about' }}</p>
+                        {{#if requirements.length}}
+                            <h3>Requirements:</h3>
+                            <ul>
+                                {{#each requirements}}
+                                    <li>{{this}}</li>
+                                {{/each}}
+                            </ul>
+                        {{/if}}
+                        {{#if responsibilities.length}}
+                            <h3>Responsibilities:</h3>
+                            <ul>
+                                {{#each responsibilities}}
+                                    <li>{{this}}</li>
+                                {{/each}}
+                            </ul>
+                        {{/if}}
+                        {{#if offer.length}}
+                            <h3>What we offer?</h3>
+                            <ul>
+                                {{#each offer}}
+                                    <li>{{this}}</li>
+                                {{/each}}
+                            </ul>
+                        {{/if}}
+                        {{#if note}}
+                            <h3>Note:</h3>
+                            <p>{{note}}</p>
+                        {{/if}}
+                    </div>
+                    <form id="apply-form" class="half-width pl-20">
+                        <h3>Apply:</h3>
+                        <div class="alert alert-success d-none" role="alert"></div>
+                        <div class="alert alert-warning d-none" role="alert"></div>
+                        {{#if isLoggedIn}}
+                            
+                            <div class="form-group">
+                                <label for="cv">Upload CV</label>
+                                <input required type="file" name="cv" class="form-control" id="cv" placeholder="Upload cv">
+                            </div>
+                            <button type="submit" class="btn btn-primary border-0" onclick="applyWithCV(event)">Apply</button>
+                            
+                        {{else}}
+                        
+                            <div class="alert alert-info" role="alert">
+                                You must Login / Sign up to apply.
+                            </div>
+
+                        {{/if}}
+                        
+
+                    </form>
+                    
                 </div>
             {{/if}}
         </div>
     </div>
 </div>
+
+<script>
+    'use strict';
+    var applyForm = new FormData();
+    function applyWithCV(e) {
+        var file = document.getElementById('cv').files[0];
+        if (file) {
+            e.preventDefault();
+            applyForm.append('cv', file);
+            applyForm.append('jobId', '{{jobId}}');
+            postFormData('http://localhost:3001/api/apply', applyForm)
+            .then(data => applyJobCallback(data)) // JSON-string from `response.json()` call
+            .catch(error => applyJobCallback(error));
+        };
+        console.log("cv", e, document.getElementById('cv').files[0]);
+        
+    };
+    function applyJobCallback(data) {
+        if (data.status == 200) {
+            $('#apply-form .form-group').addClass('d-none');
+            $('#apply-form .btn-primary').addClass('d-none');
+            $('#apply-form .alert-success').removeClass('d-none').text('Applied Successfully');
+        } else {
+            $('#apply-form .alert-warning').removeClass('d-none').text(data.message);
+        };
+    };
+</script>
 
 

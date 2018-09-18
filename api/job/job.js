@@ -7,5 +7,5 @@ module.exports = (router) => {
     .put(getSingle, success)
     .post(validateAuthToken, create, success)
     .patch(validateAuthToken, update, success);
-    router.patch('/apply', validateAuthToken, apply, success);
+    router.post('/apply', validateAuthToken, apply, success);
 };

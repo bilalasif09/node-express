@@ -53,7 +53,7 @@ exports.register = (req, res, next) => {
                 }); 
                 try {
                     await Promise.all([promise]);
-                    next('registered');
+                    next(response);
                 }
                 catch (err) {
                     console.log("Error resolving promise / renaming image");

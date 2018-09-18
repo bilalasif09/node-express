@@ -1,11 +1,7 @@
-body {
-    background-color: #f7f7f7;
-}
 .full-width { width: 100%; }
 .home-block {
-    border: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
     padding: 10px;
-    margin: 15px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -15,10 +11,11 @@ body {
     display: inline-block;
 }
 .job-detail-inner-content {
-    padding: 15px 110px;
+    padding: 15px 10px;
 }
 .job-detail-inner-content h3 {
-    font-size: 1.2em;
+    font-size: 1em;
+    text-transform: uppercase;
     font-weight: bold;
     color: #000;
 }
@@ -55,6 +52,7 @@ body {
 .half-width-flex {
     width: 50%;
     display: flex;
+    align-items: center;
 }
 .tags-date-block {
     justify-content: space-between;
@@ -65,8 +63,8 @@ body {
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    width: 80px;
-    height: 80px;
+    width: 3em;
+    height: 3em;
     background-color: #d3d3d3;
     border-radius: 3px;
 }
@@ -100,34 +98,34 @@ body {
     list-style: none;
     display: inline;
     font-weight: 400;
-    border: 1px solid rgba(255,255,255,.3);
+    border: 1px solid #a2dc4d;
     border-radius: 5px;
     -webkit-transition: 0.5s;
     -o-transition: 0.5s;
     transition: 0.5s;
 }
 .main-nav ul li:hover > a {
-    color: #a2dc4d;
+    color: #fff;
     text-decoration: none;
-    border-color: #a2dc4d;
 }
 .main-nav ul li:hover {
-    border-color: #a2dc4d;
+    background-color: #a2dc4d;
 }
 .main-nav ul li.active > a {
-    color: #a2dc4d !important;
+    color: #fff !important;
+    background-color: #a2dc4d;
     position: relative;
 }
 .main-nav ul li a {
     position: relative;
     font-size: 15px;
     padding: 20px 12px;
-    color: rgba(255, 255, 255, 0.3);
+    color: #a2dc4d;
     -webkit-transition: 0.5s;
     -o-transition: 0.5s;
     transition: 0.5s;
 }
-.btn-cta {
+/* .btn-cta {
     color: #333;
     background: #a2dc4d;
     padding: 0.6em 1.2em;
@@ -152,7 +150,7 @@ body {
     -ms-box-shadow: 0px 14px 20px -9px rgba(0, 0, 0, 0.75);
     -o-box-shadow: 0px 14px 20px -9px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 14px 20px -9px rgba(0, 0, 0, 0.75);
-}
+} */
 /* a:hover, a:active, a:focus {
     color: #a2dc4d;
     outline: none;
@@ -173,7 +171,7 @@ body {
     vertical-align: top;
     border-radius: 5px;
 }
-.btn-primary.btn-outline {
+/* .btn-primary.btn-outline {
     background: transparent;
     color: #a2dc4d;
 }
@@ -209,7 +207,7 @@ body {
 .btn-primary.btn-outline:hover, .btn-primary.btn-outline:focus, .btn-primary.btn-outline:active {
     background: #a2dc4d;
     color: #fff;
-}
+} */
 .postjob-list ul li {
     margin-top: 10px;
 }
@@ -226,4 +224,10 @@ body {
 }
 .select2-container--default .select2-selection--multiple {
     border: 1px solid #ced4da!important;
+}
+.half-width {
+    width: 50%;
+}
+.pl-20 {
+    padding-left: 20px;
 }

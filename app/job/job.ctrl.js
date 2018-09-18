@@ -20,6 +20,7 @@ exports.job = async (req, res) => {
         responsibilities: [],
         offer: [],
         note: '',
+        jobId: req.params.id,
         helpers: {
             dateFormat: dateFormat,
             getUserDetails: getUserDetails,
@@ -27,7 +28,7 @@ exports.job = async (req, res) => {
         }
     };
     try {
-        const response = await getSingleJob(req.params.id);
+        const response = await getSingleJob(dataHash.jobId);
         if (response) {
             dataHash.data = response[0];
             dataHash.requirements = getJobDetails(dataHash.data.jobdetails, 'requirements');

@@ -103,7 +103,7 @@ exports.createJob = async (requestBody, userId) => {
 
 exports.updateJob = async (title, description, userId, jobId) => {
     try {
-        return await jobModel.findOneAndUpdate({ _id: jobId, uploader: userId }, 
+        return await JobModel.findOneAndUpdate({ _id: jobId, uploader: userId }, 
             { title: title, description: description });
     }
     catch (err) {
@@ -114,7 +114,7 @@ exports.updateJob = async (title, description, userId, jobId) => {
 
 exports.applyJob = async (jobId, userId) => {
     try {
-        return await jobModel.findOneAndUpdate({ _id: jobId, uploader: userId },
+        return await JobModel.findOneAndUpdate({ _id: jobId },
             { $addToSet: { applied: userId } });
     }
     catch (err) {

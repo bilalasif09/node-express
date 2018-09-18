@@ -2,6 +2,9 @@ function postFormData(url, data) {
     // Default options are marked with *
     return fetch(url, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "x-access-token": localStorage.getItem('x-access-token')
+        },
         body: data, // body data type must match "Content-Type" header
     })
     .then(response => response.json()); // parses response to JSON
@@ -46,7 +49,6 @@ function putData(url, data) {
 };
 
 function loginRegisterCallback(data, ref) {
-    console.log("Login/Register", data);
     if (data.status == 200) { //success
         if (ref === 'reg') 
             window.location.href= '/login';
