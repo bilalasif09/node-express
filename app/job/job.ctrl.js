@@ -4,6 +4,7 @@ const { getSingleJob } = require('../../helpers/query_helper_jobs');
 exports.postajob = async (req, res) => {
     let dataHash = {
         data: null,
+        name: req.session.name,
         isLoggedIn: req.session.token ? true : false
     };
     if (dataHash.isLoggedIn)
@@ -15,6 +16,7 @@ exports.job = async (req, res) => {
     let dataHash = {
         data: null,
         isError: false,
+        name: req.session.name,
         isLoggedIn: req.session.token ? true : false,
         requirements: [],
         responsibilities: [],

@@ -20,10 +20,6 @@
           <label for="password">Password</label>
           <input required minlength="4" type="password" name="password" class="form-control" id="password" placeholder="Password">
         </div>
-        <div class="form-group">
-          <label for="image">Upload Photo / Company logo</label>
-          <input type="file" name="image" class="form-control" id="image" placeholder="Upload image">
-        </div>
         <button type="submit" class="btn btn-primary border-0">Submit</button>
       </form>
     </div>
@@ -35,16 +31,15 @@
 
   'use strict';
 
-  var myForm = new FormData(), name, email, password, image;
+  var myForm = { name: '', email: '', password: '' };
 
   function signup(e) {
      
     if (validateForm()) {
       
       e.preventDefault();  
-      setForm();  
       
-      postFormData('http://localhost:3001/api/register', myForm)
+      postData('http://localhost:3001/api/register', myForm)
       .then(data => loginRegisterCallback(data, 'reg')) // JSON-string from `response.json()` call
       .catch(error => console.error(error));
     
@@ -52,24 +47,16 @@
 
   };
 
-  function setForm() {
-    myForm.append('name', name);
-    myForm.append('email', email);
-    myForm.append('password', password);
-    myForm.append('image', image.files[0]);
-  };
-
   function validateForm() {
     
-    name = $('#name').val(), email = $('#email').val(), password = $('#password').val(),
-     image = document.getElementById('image');
+    myForm.name = $('#name').val(), myForm.email = $('#email').val(), myForm.password = $('#password').val();
 
-    if (!name.trim() || !email.trim() || password.length < 4) { // if either is empty return false
+    if (!myForm.name.trim() || !myForm.email.trim() || myForm.password.length < 4) { // if either is empty return false
       
-      if (email != email.trim() && !email.trim()) // if blank spaces exist only
+      if (myForm.email != myForm.email.trim() && !myForm.email.trim()) // if blank spaces exist only
         $('#email').val('');
 
-      if (name != name.trim() && !name.trim()) // if blank spaces exist only
+      if (myForm.name != myForm.name.trim() && !myForm.name.trim()) // if blank spaces exist only
         $('#name').val('');
       
       return false;

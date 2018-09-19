@@ -88,7 +88,7 @@
     position: relative;
     color: #fff;
 }
-.main-nav ul {
+/* .main-nav ul {
     padding: 0;
     margin: 0;
 }
@@ -124,7 +124,7 @@
     -webkit-transition: 0.5s;
     -o-transition: 0.5s;
     transition: 0.5s;
-}
+} */
 /* .btn-cta {
     color: #333;
     background: #a2dc4d;
@@ -158,7 +158,7 @@
 } */
 .search-input {
     font-size: 14px;
-    width: 100%;
+    width: 400px;
     border-color: rgba(0,0,0,0.5);
     background-color: #333;
     color: #fff;
@@ -230,4 +230,7 @@
 }
 .pl-20 {
     padding-left: 20px;
+}
+.p-10 {
+    padding: 10px;
 }

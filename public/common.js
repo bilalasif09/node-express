@@ -50,12 +50,8 @@ function putData(url, data) {
 
 function loginRegisterCallback(data, ref) {
     if (data.status == 200) { //success
-        if (ref === 'reg') 
-            window.location.href= '/login';
-        else {
-            localStorage.setItem('x-access-token', data.response);
-            window.location.href = '/';
-        };
+        localStorage.setItem('x-access-token', data.response.token);
+        window.location.href = '/';
     } else {
       $('.alert-danger').removeClass('d-none');
       if (data.status == 401) {

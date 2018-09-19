@@ -4,9 +4,13 @@ const Schema = mongoose.Schema;
 const JobSchema = new Schema({
     title: {
         type: String,
+        index: true,
         required: [true, 'Title is required']
     },
-    tags: [String],
+    tags: {
+        type: [String],
+        index: true
+    },
     uploader: { 
         type: Schema.Types.ObjectId, 
         ref: 'users'   

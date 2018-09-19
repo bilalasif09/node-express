@@ -1,27 +1,29 @@
-{{> header}}
 <div class="container bg-white">
     <div class="row">
         <div class="col-md-12 mt-3">
-            {{#each data.jobs}}
+            {{#each data}}
                 <div class="home-block">
                     <div class="half-width-flex">
-                        <a href="javascript:void(0)">
-                            <div class="profile-image"
-                             style="background-image: url(/{{../data._id}}_{{../data.image}});">
+                        <a href="/user/{{this.uploader}}/{{getUserDetails this.user 'name'}}">
+                            <div class="profile-image" style="background-image: url(/{{getUserDetails this.user '_id'}}_{{getUserDetails this.user 'image'}});">
                             </div>
                         </a>
                         <div class="titles">
                             <a href="/job/{{this._id}}">
                                 {{this.title}}
                             </a>
-                            <a href="javascript:void(0)">{{../data.name}}</a>
+                            <a href="/user/{{this.uploader}}/{{getUserDetails this.user 'name'}}">{{getUserDetails this.user 'name'}}</a>
                         </div>
                     </div>
                     <div class="half-width-flex tags-date-block">
                         {{#if this.tags.length}}
                             <div class="tags">
                                 {{#each this.tags}}
-                                    <a href="/search?query={{this}}">{{this}}</a>
+                                    {{#if (checkEquality this ../../query)}}
+                                        <a href="javascript:void(0);" style="background-color: #000; color: #fff;">{{this}}</a>
+                                    {{else}}
+                                        <a href="/search?query={{this}}">{{this}}</a>
+                                    {{/if}}
                                 {{/each}}
                             </div>
                         {{/if}}

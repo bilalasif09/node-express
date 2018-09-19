@@ -24,10 +24,10 @@ exports.validateAuthToken = (req, res, next) => {
         next();
     });
 };
-exports.saveSession = (token, req, res, next) => {
-    req.session.token = token;
-    console.log("Saving session token", req.session.token);
-    next(token);
+exports.saveSession = (data, req, res, next) => {
+    req.session.token = data.token;
+    req.session.name = data.user.name;
+    next(data);
 };
 exports.success = (response, req, res, next) => {
     res.status(200).send({ auth: true, response: response, message: 'Success', status: 200 });

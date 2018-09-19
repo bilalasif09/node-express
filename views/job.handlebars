@@ -9,7 +9,7 @@
             {{else}}
                 <div class="home-block">
                     <div class="half-width-flex">
-                        <a href="/user/{{data.uploader}}">
+                        <a href="/user/{{data.uploader}}/{{getUserDetails data.user 'name'}}">
                             <div class="profile-image" style="background-image: url(/{{getUserDetails data.user '_id'}}_{{getUserDetails data.user 'image'}});">
                             </div>
                         </a>
@@ -17,7 +17,7 @@
                             <a href="/job/{{data._id}}">
                                 {{data.title}}
                             </a>
-                            <a href="/user/{{data.uploader}}">{{getUserDetails data.user 'name'}}</a>
+                            <a href="/user/{{data.uploader}}/{{getUserDetails data.user 'name'}}">{{getUserDetails data.user 'name'}}</a>
                         </div>
                     </div>
                     <div class="half-width-flex tags-date-block">

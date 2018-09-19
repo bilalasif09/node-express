@@ -1,23 +1,28 @@
 <nav class="main-nav" role="navigation">
     <div class="top-menu">
         <div class="container">
-            <div class="row d-flex align-items-center">
-                <div class="col-md-2">
-                    <div id="logo"><a href="/">Landing</a></div>
-                </div>
-                <div class="col-md-7">
-                    <input class="search-input" type="text" placeholder="What you are looking for?">
-                </div>
-                <div class="col-md-3 text-right menu-1">
-                    <ul>
-                        {{#if isLoggedIn}}
-                            <li><a href="/postajob">Post a job</a></li>
-                            <li><a href="/logout">Logout</a></li>
-                        {{else}}
-                            <li><a href="/login">Login</a></li>
-                            <li><a href="/sign-up">Sign Up</a></li>
-                        {{/if}}
-                    </ul>
+            <div class="row d-flex align-items-center justify-content-between">
+                <div id="logo"><a href="/">Landing</a></div>    
+                <form action="/search" method="GET">
+                    <input class="search-input" name="query" value="{{query}}" type="text" placeholder="What you are looking for?">
+                </form>
+                <div>
+                    {{#if isLoggedIn}}
+                        <a href="/postajob" class="btn btn-outline-danger mr-2">Post a job</a> 
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Hi, {{name}}
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a href="/dashboard" class="dropdown-item">Dashboard</a>
+                                <a href="/settings" class="dropdown-item">Settings</a>
+                                <a href="/logout" class="dropdown-item">Logout</a>
+                            </div>
+                        </div>
+                    {{else}}
+                        <a href="/login" class="btn btn-primary mr-2">Login</a>
+                        <a href="/sign-up" class="btn btn-primary">Sign up</a>
+                    {{/if}}
                 </div>
             </div>
         </div>

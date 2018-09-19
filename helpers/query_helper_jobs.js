@@ -21,6 +21,28 @@ exports.getAllJobs = async () => {
     };
 };
 
+exports.searchAllJobs = async (query) => {
+    try {
+        return await JobModel.aggregate([
+            {
+                $match: { $text: { $search: query } }
+            },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'uploader',
+                    foreignField: '_id',
+                    as: 'user'
+                }
+            }
+        ]);
+    } 
+    catch (err) {
+        console.log("Error searching jobs", err);
+        return false;
+    };
+};
+
 exports.getSingleJob = async (jobId) => {
     try {
         return await JobModel.aggregate([

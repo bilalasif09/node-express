@@ -67,7 +67,7 @@ exports.apply = async (req, res, next) => {
                 const response = await updateUser(req.userId, userObj);
                 if (response) {
                     const uniqueFileName = response._id.toString() + '_' + response.cv; 
-                      const promise = new Promise( (resolve, reject) => {
+                    const promise = new Promise( (resolve, reject) => {
                         fs.rename(filePath, form.uploadDir + "/cvs-" + uniqueFileName, (err) => {
                             if (err) reject();
                             resolve();

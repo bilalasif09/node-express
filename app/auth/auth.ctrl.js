@@ -6,7 +6,10 @@ exports.login = (req, res) => {
 };
 exports.logout = (req, res) => {
     req.session.destroy((err) => {
-        res.render('logout');
+        if (err) res.render('logout', {
+            error: err
+        });
+        res.redirect('/');
     });
 };
 exports.register = (req, res) => {
