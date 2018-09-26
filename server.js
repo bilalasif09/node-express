@@ -3,12 +3,14 @@ const exphbs  = require('express-handlebars');
 const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
-let session = require('express-session');
+// let session = require('express-session');
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/pp', { useNewUrlParser: true });
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 const routes = require(path.join(__dirname, 'routes'));
 const appRoutes = require(path.join(__dirname, 'app_routes'));
@@ -20,13 +22,14 @@ appRoutes(router);
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
-app.use(session({ 
-        resave: false,
-        saveUninitialized: false,
-        secret: 'dev secret', 
-        cookie: {}
-    })
-);
+
+// app.use(session({ 
+//         resave: false,
+//         saveUninitialized: false,
+//         secret: 'dev secret', 
+//         cookie: {}
+//     })
+// );
 
 //Api routes
 app.use('/api', router);

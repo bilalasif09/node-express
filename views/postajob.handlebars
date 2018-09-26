@@ -1,15 +1,15 @@
 {{> header}}
 <div class="container">
   <div class="row">
-    <div class="col-md-6 col-sm-8 col-xs-12 offset-md-3 offset-sm-2 mt-3">
+    <div class="col-md-10 col-sm-12 col-xs-12 offset-md-1 mt-3">
       <h2 class="mb-3">Post a job</h2>
       <form action="/postajob" method="POST">
         <div class="form-group">
-          <label for="title">Title*</label>
+          <label for="title">Title</label>
           <input required type="text" name="title" value="" class="form-control" id="title" placeholder="Enter title">
         </div>
         <div class="form-group">
-          <label for="tags">Tags</label>
+          <label for="tags">Tags / Keywords (Optional)</label>
           <select id="tags" class="form-control" name="tags[]" multiple="multiple">
             <option>orange</option>
             <option>white</option>
@@ -17,40 +17,29 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="about">Company details*</label>
-          <textarea required name="about" id="about" class="form-control" placeholder="Tell us about the company"></textarea>
-        </div>
-        <div class="form-group postjob-list">
-          <label for="requirements">Requirements</label>
-          <input type="text" id="requirements" name="requirements[]" class="form-control" placeholder="Add Requirements">
-          <button type="button" class="btn btn-primary border-0 full-width mt-2" onclick="addRequirement()">Add</button>
-          <ul id="requirements-container">
-
-          </ul>
-        </div>
-        <div class="form-group postjob-list">
-          <label for="responsibilities">Responsibilities</label>
-          <input type="text" id="responsibilities" name="responsibilities[]" class="form-control" placeholder="Add Responsibilities">
-          <button type="button" class="btn btn-primary border-0 full-width mt-2" onclick="addResponsibilities()">Add</button>
-          <ul id="responsibilities-container">
-
-          </ul>
-        </div>
-        <div class="form-group postjob-list">
-          <label for="offers">Our offer</label>
-          <input type="text" id="offers" name="offers[]" class="form-control" placeholder="Add your offers">
-          <button type="button" class="btn btn-primary border-0 full-width mt-2" onclick="addOffer()">Add</button>
-          <ul id="offers-container">
-
-          </ul>
+          <label for="company-name">Company Name</label>
+          <input required type="text" class="form-control" name="company-name" id="company-name" placeholder="Enter company name" >
         </div>
         <div class="form-group">
-          <label for="more-about">More about company</label>
-          <textarea name="more-about" id="more-about" class="form-control" placeholder="Tell us more about the company and the role"></textarea>
+          <label for="location">Location (Optional)</label>
+          <input type="text" class="form-control" name="location" id="location" placeholder="Enter location" >
         </div>
         <div class="form-group">
-          <label for="note">Note</label>
-          <textarea name="note" id="note" class="form-control" placeholder="Any special note?"></textarea>
+          <label for="closing-date">Closing Date (Optional)</label>
+          <input type="date" class="form-control" name="closing-date" id="closing-date" placeholder="mm/dd/yyyy" >
+        </div>
+        <div class="form-group">
+          <label for="job-type">Job Type</label>
+          <select class="form-control" name="job-type" id="job-type">
+            <option>Full time</option>
+            <option>Part time</option>
+            <option>Remote / Full time</option>
+            <option>Remote / Part time</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea type="text" name="description" class="form-control" id="description"></textarea>
         </div>
         
         <button type="submit" class="btn btn-primary border-0 full-width mt-2" onclick="postJob(event)">Submit</button>
@@ -63,7 +52,7 @@
   'use strict';
 
   var myForm = {
-    title: '', tags: [], about: '', requirements: [], responsibilities: [], offers: [], more: '', note: ''
+    title: '', tags: [], description: ''
   };
 
   function postJob(e) {
@@ -79,17 +68,15 @@
   function validateForm() {
     myForm.title = $('#title').val();
     myForm.tags = $('#tags').val();
-    myForm.about = $('#about').val();
-    myForm.more = $('#more-about').val();
-    myForm.note = $('#note').val();
+    myForm.description = $('#description').val();
 
-    if (!myForm.title.trim() || !myForm.about.trim()) { // if either is empty return false
+    if (!myForm.title.trim() || !myForm.description.trim()) { // if either is empty return false
       
       if (myForm.title != myForm.title.trim() && !myForm.title.trim()) // if blank spaces exist only
         $('#title').val('');
 
-      if (myForm.about != myForm.about.trim() && !myForm.about.trim()) // if blank spaces exist only
-        $('#about').val('');
+      if (myForm.description != myForm.description.trim() && !myForm.description.trim()) // if blank spaces exist only
+        $('#description').val('');
       
       return false;
     
@@ -100,7 +87,7 @@
 
   $(function() {
     
-    $("select").select2({
+    $("select#tags").select2({
       tags: true,
       placeholder: 'Select or create new'
       //insertTag: function (data, tag) {
@@ -108,45 +95,9 @@
         //data.push(tag);
       //}
     });
+    $("select#job-type").select2();
+    $("#description").froalaEditor();
     
   });
-
-  function addRequirement() {
-    var value = $('#requirements').val().trim();
-    if (!value) return;
-    myForm.requirements.push(value);
-    var html = '<li><div class="d-flex justify-content-between">' + value 
-      + '<span id="req-' + myForm.requirements.length 
-      + '" onclick="removeById(this.id)">Remove</span></div></li>';
-    $('#requirements').val('');
-    $('#requirements-container').append(html);
-  };
-
-  function addResponsibilities() {
-    var value = $('#responsibilities').val().trim();
-    if (!value) return;
-    myForm.responsibilities.push(value);
-    var html = '<li><div class="d-flex justify-content-between">' + value 
-      + '<span id="res-' + myForm.responsibilities.length 
-      + '" onclick="removeById(this.id)">Remove</span></div></li>';
-    $('#responsibilities').val('');
-    $('#responsibilities-container').append(html);
-  };
-
-  function addOffer() {
-    var value = $('#offers').val().trim();
-    if (!value) return;
-    myForm.offers.push(value);
-    var html = '<li><div class="d-flex justify-content-between">' + value 
-      + '<span id="off-' + myForm.offers.length 
-      + '" onclick="removeOffer(this.id)">Remove</span></div></li>';
-    $('#offers').val('');
-    $('#offers-container').append(html);
-  };
-  
-  function removeById(id) {
-    var myId = '#' + id;
-    $(myId).parent().parent().remove();
-  };
 
 </script>

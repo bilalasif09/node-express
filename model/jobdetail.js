@@ -6,14 +6,9 @@ const JobDetailSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'jobs'
     },
-    about: {
+    description: {
         type: String,
         required: true
-    },
-    requirements: [String],
-    responsibilities: [String],
-    offer: [String],
-    more_details: String,
-    note: String
+    }
 });
 module.exports = mongoose.model('jobdetails', JobDetailSchema);

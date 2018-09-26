@@ -4,8 +4,8 @@ const { getSingleUserJob, updateUser } = require('../../helpers/query_helper_use
 exports.getSingleUser = async (req, res) => {
     let dataHash = {
         data: null,
-        name: req.session.name,
-        isLoggedIn: req.session.token ? true : false,
+        name: req.cookies.name,
+        isLoggedIn: req.cookies.token !== 'undefined' ? true : false,
         helpers: {
             dateFormat: dateFormat,
             getJobDetails: getJobDetails
@@ -24,8 +24,8 @@ exports.getSingleUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
     let dataHash = {
         data: null,
-        name: req.session.name,
-        isLoggedIn: req.session.token ? true : false
+        name: req.cookies.name,
+        isLoggedIn: req.cookies.token !== 'undefined' ? true : false
     };
     try {
         const response = await updateUser(req.params.id);

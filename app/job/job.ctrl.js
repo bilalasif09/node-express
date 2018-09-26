@@ -4,8 +4,8 @@ const { getSingleJob } = require('../../helpers/query_helper_jobs');
 exports.postajob = async (req, res) => {
     let dataHash = {
         data: null,
-        name: req.session.name,
-        isLoggedIn: req.session.token ? true : false
+        name: req.cookies.name,
+        isLoggedIn: req.cookies.token !== 'undefined' ? true : false
     };
     if (dataHash.isLoggedIn)
         res.render('postajob', dataHash);
@@ -16,8 +16,8 @@ exports.job = async (req, res) => {
     let dataHash = {
         data: null,
         isError: false,
-        name: req.session.name,
-        isLoggedIn: req.session.token ? true : false,
+        name: req.cookies.name,
+        isLoggedIn: req.cookies.token !== 'undefined' ? true : false,
         requirements: [],
         responsibilities: [],
         offer: [],

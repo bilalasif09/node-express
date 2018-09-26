@@ -74,25 +74,22 @@ exports.getSingleJob = async (jobId) => {
 };
 
 exports.createJob = async (requestBody, userId) => {
-    if (!requestBody.title || !requestBody.about)
+    if (!requestBody.title || !requestBody.description || !requestBody.company_name)
         return false;
     const jobId = new mongoose.Types.ObjectId();
     const jobObj = new JobModel({
         _id: jobId,
         title: requestBody.title,
         tags: requestBody.tags,
-        is_remote: requestBody.is_remote,
-        country: requestBody.country,
+        company_name: requestBody.company_name,
+        type: requestBody.type,
+        location: requestBody.location,
+        closing_date: requestBody.closing_date,
         uploader: userId
     });
     const jobDetailObj = new JobDetailModel({
         job_id: jobId,
-        about: requestBody.about,
-        requirements: requestBody.requirements,
-        responsibilities: requestBody.responsibilities,
-        offer: requestBody.offer,
-        more_details: requestBody.more_details,
-        note: requestBody.note
+        description: requestBody.description
     });
     const promise1 = new Promise( async (resolve, reject) => {
         try {

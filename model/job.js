@@ -15,10 +15,13 @@ const JobSchema = new Schema({
         type: Schema.Types.ObjectId, 
         ref: 'users'   
     },
-    country: String,
-    is_remote: {
-        type: Boolean,
-        default: false
+    location: String,
+    type: String,
+    closing_date: Date,
+    company_name: {
+        type: String,
+        required: [true, 'Company name is required'],
+        index: true
     },
     is_active: {
         type: Boolean,

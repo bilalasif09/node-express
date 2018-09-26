@@ -25,8 +25,10 @@ exports.validateAuthToken = (req, res, next) => {
     });
 };
 exports.saveSession = (data, req, res, next) => {
-    req.session.token = data.token;
-    req.session.name = data.user.name;
+    // req.session.token = data.token;
+    // req.session.name = data.user.name;
+    res.cookie('token', data.token);
+    res.cookie('name', data.user.name);
     next(data);
 };
 exports.success = (response, req, res, next) => {
