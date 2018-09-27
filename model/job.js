@@ -15,7 +15,10 @@ const JobSchema = new Schema({
         type: Schema.Types.ObjectId, 
         ref: 'users'   
     },
-    location: String,
+    location: {
+        type: String,
+        index: true
+    },
     type: String,
     closing_date: Date,
     company_name: {

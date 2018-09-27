@@ -3,22 +3,29 @@
   <div class="row">
     <div class="col-md-10 col-sm-12 col-xs-12 offset-md-1 mt-3">
       <h2 class="mb-3">Post a job</h2>
-      <form action="/postajob" method="POST">
+      <form id="postjob">
         <div class="form-group">
           <label for="title">Title</label>
           <input required type="text" name="title" value="" class="form-control" id="title" placeholder="Enter title">
+          <small class="d-none custom-error red">Title is required</small>
+        </div>
+        <div class="form-group">
+          <label for="description">Job Description</label>
+          <textarea type="text" name="description" class="form-control" id="description"></textarea>
+          <small class="d-none custom-error red">Job description is required</small>
+        </div>
+        <div class="form-group">
+          <label for="company-name">Company Name</label>
+          <input required type="text" class="form-control" value="{{name}}" name="companyName" id="companyName" placeholder="Enter company name" >
+          <small class="d-none custom-error red">Company name is required</small>
         </div>
         <div class="form-group">
           <label for="tags">Tags / Keywords (Optional)</label>
-          <select id="tags" class="form-control" name="tags[]" multiple="multiple">
+          <select id="tags" class="form-control" name="tags" multiple="multiple">
             <option>orange</option>
             <option>white</option>
             <option>purple</option>
           </select>
-        </div>
-        <div class="form-group">
-          <label for="company-name">Company Name</label>
-          <input required type="text" class="form-control" name="company-name" id="company-name" placeholder="Enter company name" >
         </div>
         <div class="form-group">
           <label for="location">Location (Optional)</label>
@@ -26,23 +33,22 @@
         </div>
         <div class="form-group">
           <label for="closing-date">Closing Date (Optional)</label>
-          <input type="date" class="form-control" name="closing-date" id="closing-date" placeholder="mm/dd/yyyy" >
+          <input type="date" class="form-control" name="closingDate" id="closingDate" placeholder="mm/dd/yyyy" >
         </div>
         <div class="form-group">
           <label for="job-type">Job Type</label>
-          <select class="form-control" name="job-type" id="job-type">
+          <select class="form-control" name="jobType" id="jobType">
             <option>Full time</option>
             <option>Part time</option>
             <option>Remote / Full time</option>
             <option>Remote / Part time</option>
           </select>
         </div>
-        <div class="form-group">
-          <label for="description">Description</label>
-          <textarea type="text" name="description" class="form-control" id="description"></textarea>
-        </div>
         
-        <button type="submit" class="btn btn-primary border-0 full-width mt-2" onclick="postJob(event)">Submit</button>
+        
+        <button type="submit" id="load" class="btn btn-primary border-0 full-width mt-2 mb-5" 
+        onclick="postJob(event)"><i class="fa fa-spinner-third"></i>Submit</button>
+      
       </form>
     </div>
   </div>
@@ -52,37 +58,45 @@
   'use strict';
 
   var myForm = {
-    title: '', tags: [], description: ''
+    title: '', tags: [], description: '', companyName: '', location: '', closingDate: '', jobType: ''
   };
 
+$('.btn').on('click', function() {
+    var $this = $(this);
+  $this.button('loading');
+    setTimeout(function() {
+       $this.button('reset');
+   }, 8000);
+});
+
   function postJob(e) {
+    
+    e.preventDefault();
+    e.stopPropagation();
+
     if (validateForm()) {
-      e.preventDefault();
-      console.log("My Form", myForm);
       postData('http://localhost:3001/api/job', myForm)
       .then(data => console.log(data)) // JSON-string from `response.json()` call
       .catch(error => console.error(error));
+    
     };
   };
 
   function validateForm() {
-    myForm.title = $('#title').val();
-    myForm.tags = $('#tags').val();
-    myForm.description = $('#description').val();
-
-    if (!myForm.title.trim() || !myForm.description.trim()) { // if either is empty return false
-      
-      if (myForm.title != myForm.title.trim() && !myForm.title.trim()) // if blank spaces exist only
-        $('#title').val('');
-
-      if (myForm.description != myForm.description.trim() && !myForm.description.trim()) // if blank spaces exist only
-        $('#description').val('');
-      
-      return false;
     
-    } else {
-      return true;
-    };
+    var noError = true;
+    var customForm = $('#postjob').serializeArray();
+    $('.custom-error').addClass('d-none');
+    $.each(customForm, function(index, value) {
+      myForm[value.name] = value.value;
+      if (!value.value.trim() && index < 3) {
+        document.getElementsByClassName('custom-error')[index].className = 'custom-error red';
+        noError = false;
+      };
+    });
+    if (!noError) window.scrollTo(0,0);
+    return noError;
+
   };
 
   $(function() {
