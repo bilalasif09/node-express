@@ -26,6 +26,12 @@ const JobSchema = new Schema({
         required: [true, 'Company name is required'],
         index: true
     },
+    company_logo: String,
+    test_status: {
+        type: Number,
+        default: 0
+    },
+    test_file: String,
     is_active: {
         type: Boolean,
         default: true

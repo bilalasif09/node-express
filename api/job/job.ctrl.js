@@ -25,14 +25,25 @@ exports.getSingle = async (req, res, next) => {
 };
 
 exports.create = async (req, res, next) => {
-    console.log("creating job", req.body);
-    try {
-        const response = await createJob(req.body, req.userId);
-        response ? next(response) : failure500(res, {});
-    }
-    catch(err) {
-        failure500(res, err);
-    };
+    // console.log("creating job", req.body);
+    // try {
+    //     const response = await createJob(req.body, req.userId);
+    //     response ? next(response) : failure500(res, {});
+    // }
+    // catch(err) {
+    //     failure500(res, err);
+    // };
+    const form = new formidable.IncomingForm();
+    form.parse(req);
+    form.on('field', (field, value) => {
+        console.log("Fields", field, value);
+    });
+    form.on('file', (name, file) => {
+        console.log("file", name, file);
+    });
+    form.on('end', () => {
+        console.log("form end");
+    });
 };
 
 exports.update = async (req, res, next) => {
@@ -50,7 +61,7 @@ exports.apply = async (req, res, next) => {
     let jobId;
     let filePath = '';
     const form = new formidable.IncomingForm();
-    form.uploadDir = './cvs/';
+    form.uploadDir = './cvfiles/';
     form.parse(req);
 
     form.on('field', (field, value) => {
