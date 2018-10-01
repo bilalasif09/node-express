@@ -21,22 +21,22 @@
         </div>
         <div class="form-group">
           <label for="company-name">Company Name</label>
-          <input required type="text" class="form-control" value="{{name}}" name="companyName" id="companyName" placeholder="Enter company name" >
+          <input required type="text" class="form-control" value="{{name}}" name="company_name" id="companyName" placeholder="Enter company name" >
           <small class="d-none custom-error red">Company name is required</small>
         </div>
         <div class="form-group">
           <label for="companyLogo">Company Logo (Optional)</label>
-          <input type="file" class="form-control" value="" name="companyLogo" id="companyLogo" placeholder="Upload logo" >
+          <input type="file" class="form-control" value="" name="company_logo" id="companyLogo" placeholder="Upload logo" >
         </div>
         <div class="form-group">
           <label for="radios">Do you want to take test for this position?</label>
           <div id="radios">
             <label class="radio-inline">
-              <input type="radio" onchange="testRadios(0)" value="0" name="optradio" checked>No test</label>
+              <input type="radio" onchange="testRadios(0)" value="0" name="test_status" checked>No test</label>
             <label class="radio-inline">
-              <input type="radio" onchange="testRadios(1)" value="1" name="optradio">Test is optional</label>
+              <input type="radio" onchange="testRadios(1)" value="1" name="test_status">Test is optional</label>
             <label class="radio-inline">
-              <input type="radio" onchange="testRadios(2)" value="2" name="optradio">Test is required</label>
+              <input type="radio" onchange="testRadios(2)" value="2" name="test_status">Test is required</label>
           </div>
         </div>
         <div id="testFile" class="form-group d-none">
@@ -58,11 +58,11 @@
         </div>
         <div class="form-group">
           <label for="closing-date">Closing Date (Optional)</label>
-          <input type="date" class="form-control" name="closingDate" id="closingDate" placeholder="mm/dd/yyyy" >
+          <input type="date" class="form-control" name="closing_date" id="closingDate" placeholder="mm/dd/yyyy" >
         </div>
         <div class="form-group">
           <label for="job-type">Job Type</label>
-          <select class="form-control" name="jobType" id="jobType">
+          <select class="form-control" name="type" id="jobType">
             <option>Full time</option>
             <option>Part time</option>
             <option>Remote / Full time</option>
@@ -136,10 +136,10 @@
     if (!$('.custom-error-file').hasClass('d-none')) $('.custom-error-file').addClass('d-none');
     if (testStatus) {
       var testFile = document.getElementById('test').files[0];
-      !testFile ? emptyTestFileError() : myForm.append('testFile', testFile);
+      !testFile ? emptyTestFileError() : myForm.append('test_file', testFile);
     }
     var logoFile = document.getElementById('companyLogo').files[0];
-    if (logoFile) myForm.append('logoFile', logoFile);
+    if (logoFile) myForm.append('company_logo', logoFile);
     return true;
   };
 

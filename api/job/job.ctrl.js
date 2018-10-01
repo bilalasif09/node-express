@@ -33,16 +33,20 @@ exports.create = async (req, res, next) => {
     // catch(err) {
     //     failure500(res, err);
     // };
+    let jobObj = {};
     const form = new formidable.IncomingForm();
     form.parse(req);
     form.on('field', (field, value) => {
         console.log("Fields", field, value);
+        jobObj[field] = value;
     });
     form.on('file', (name, file) => {
         console.log("file", name, file);
+        jobObj[name] = file.name;
     });
     form.on('end', () => {
-        console.log("form end");
+        console.log("form end", jobObj);
+        next();
     });
 };
 
