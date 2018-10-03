@@ -26,27 +26,24 @@ exports.getSingle = async (req, res, next) => {
 
 exports.create = async (req, res, next) => {
     // console.log("creating job", req.body);
-    // try {
-    //     const response = await createJob(req.body, req.userId);
-    //     response ? next(response) : failure500(res, {});
-    // }
-    // catch(err) {
-    //     failure500(res, err);
-    // };
     let jobObj = {};
     const form = new formidable.IncomingForm();
     form.parse(req);
     form.on('field', (field, value) => {
-        console.log("Fields", field, value);
         jobObj[field] = value;
     });
     form.on('file', (name, file) => {
-        console.log("file", name, file);
         jobObj[name] = file.name;
     });
-    form.on('end', () => {
+    form.on('end', async () => {
         console.log("form end", jobObj);
-        next();
+        try {
+            const response = await createJob(jobObj, req.userId);
+            response ? next(response) : failure500(res, {});
+        }
+        catch(err) {
+            failure500(res, err);
+        };
     });
 };
 

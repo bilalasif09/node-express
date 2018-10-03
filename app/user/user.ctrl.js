@@ -1,11 +1,12 @@
 const { dateFormat, getJobDetails } = require('../../helpers/app_helper');
 const { getSingleUserJob, updateUser } = require('../../helpers/query_helper_users');
+const { checkTokenValidity } = require('../../helpers/api_helper');
 
 exports.getSingleUser = async (req, res) => {
     let dataHash = {
         data: null,
         name: req.cookies.name,
-        isLoggedIn: req.cookies.token !== 'undefined' ? true : false,
+        isLoggedIn: req.cookies.token && req.cookies.token !== 'undefined' && checkTokenValidity(req.cookies.token),
         helpers: {
             dateFormat: dateFormat,
             getJobDetails: getJobDetails
@@ -25,7 +26,7 @@ exports.updateUser = async (req, res) => {
     let dataHash = {
         data: null,
         name: req.cookies.name,
-        isLoggedIn: req.cookies.token !== 'undefined' ? true : false
+        isLoggedIn: req.cookies.token && req.cookies.token !== 'undefined' && checkTokenValidity(req.cookies.token)
     };
     try {
         const response = await updateUser(req.params.id);

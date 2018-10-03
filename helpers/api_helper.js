@@ -12,27 +12,34 @@ exports.createAuthToken = (id) => {
         { expiresIn: 86400 } // expires in 24 hours 
     );
 };
+exports.checkTokenValidity = (token) => {
+    return jwt.verify(token, config.secret, (err, decoded) => {
+        if (err) return false;
+        else return true;
+    });
+};
 exports.validateAuthToken = async (req, res, next) => {
     const token = req.headers['x-access-token'];
     if (!token) {
         this.failure404(res, {});
-    };
-    const promise = new Promise( (resolve, reject) => {
-        jwt.verify(token, config.secret, (err, decoded) => {
-            if (err) {
-                reject();
-            } else {
-                req.userId = decoded.id;
-                resolve();
-            };
-        });
-    }); 
-    try {
-        await Promise.all([promise]);
-        next();
-    }
-    catch (err) {
-        this.failure401(res, err);
+    } else {
+        const promise = new Promise( (resolve, reject) => {
+            jwt.verify(token, config.secret, (err, decoded) => {
+                if (err) {
+                    reject();
+                } else {
+                    req.userId = decoded.id;
+                    resolve();
+                };
+            });
+        }); 
+        try {
+            await Promise.all([promise]);
+            next();
+        }
+        catch (err) {
+            this.failure401(res, err);
+        };
     };
 };
 exports.saveSession = (data, req, res, next) => {

@@ -1,23 +1,24 @@
 const { dateFormat, getUserDetails, getJobDetails } = require('../../helpers/app_helper');
 const { getSingleJob } = require('../../helpers/query_helper_jobs');
+const { checkTokenValidity } = require('../../helpers/api_helper');
 
 exports.postajob = async (req, res) => {
     let dataHash = {
         data: null,
         name: req.cookies.name,
-        isLoggedIn: req.cookies.token !== 'undefined' ? true : false
+        isLoggedIn: req.cookies.token && req.cookies.token !== 'undefined' && checkTokenValidity(req.cookies.token)
     };
     if (dataHash.isLoggedIn)
         res.render('postajob', dataHash);
     else 
-        res.redirect('/');
+        res.redirect('/logout');
 };
 exports.job = async (req, res) => {
     let dataHash = {
         data: null,
         isError: false,
         name: req.cookies.name,
-        isLoggedIn: req.cookies.token !== 'undefined' ? true : false,
+        isLoggedIn: req.cookies.token && req.cookies.token !== 'undefined' && checkTokenValidity(req.cookies.token),
         requirements: [],
         responsibilities: [],
         offer: [],

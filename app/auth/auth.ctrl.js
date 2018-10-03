@@ -1,5 +1,7 @@
+const { checkTokenValidity } = require('../../helpers/api_helper');
+
 exports.login = (req, res) => {
-    const isLoggedIn = req.cookies.token !== 'undefined' ? true : false;   
+    const isLoggedIn = req.cookies.token && req.cookies.token !== 'undefined' && checkTokenValidity(req.cookies.token);   
     isLoggedIn ? res.redirect('/') : res.render('login', {
         isLoggedIn: isLoggedIn
     });
@@ -17,7 +19,7 @@ exports.logout = (req, res) => {
 
 };
 exports.register = (req, res) => {
-    const isLoggedIn = req.cookies.token !== 'undefined' ? true : false;
+    const isLoggedIn = req.cookies.token && req.cookies.token !== 'undefined' && checkTokenValidity(req.cookies.token);
     isLoggedIn ? res.redirect('/') : res.render('sign-up', {
         isLoggedIn: isLoggedIn
     });

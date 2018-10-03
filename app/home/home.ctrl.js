@@ -1,11 +1,12 @@
 const { dateFormat, getUserDetails, checkEquality } = require('../../helpers/app_helper');
 const { getAllJobs, searchAllJobs } = require('../../helpers/query_helper_jobs');
+const { checkTokenValidity } = require('../../helpers/api_helper');
 
 exports.index = async (req, res) => {
     let dataHash = {
         data: null,
         name: req.cookies.name,
-        isLoggedIn: req.cookies.token !== 'undefined' ? true : false,
+        isLoggedIn: req.cookies.token && req.cookies.token !== 'undefined' && checkTokenValidity(req.cookies.token),
         helpers: {
             dateFormat: dateFormat,
             getUserDetails: getUserDetails,
@@ -27,7 +28,7 @@ exports.search = async (req, res) => {
         data: null,
         name: req.cookies.name,
         query: req.query.query,
-        isLoggedIn: req.cookies.token !== 'undefined' ? true : false,
+        isLoggedIn: req.cookies.token && req.cookies.token !== 'undefined' && checkTokenValidity(req.cookies.token),
         helpers: {
             dateFormat: dateFormat,
             getUserDetails: getUserDetails,
@@ -36,7 +37,7 @@ exports.search = async (req, res) => {
     };
     try {
         const response = await searchAllJobs(dataHash.query);
-        dataHash.data = response.reverse();
+        dataHash.data = response;
     }
     catch(err) {
         dataHash.data = err;

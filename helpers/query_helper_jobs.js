@@ -77,16 +77,9 @@ exports.createJob = async (requestBody, userId) => {
     if (!requestBody.title || !requestBody.description || !requestBody.company_name)
         return false;
     const jobId = new mongoose.Types.ObjectId();
-    const jobObj = new JobModel({
-        _id: jobId,
-        title: requestBody.title,
-        tags: requestBody.tags,
-        company_name: requestBody.company_name,
-        type: requestBody.type,
-        location: requestBody.location,
-        closing_date: requestBody.closing_date,
-        uploader: userId
-    });
+    requestBody['uploader'] = userId;
+    requestBody['_id'] = jobId;
+    const jobObj = new JobModel(requestBody);
     const jobDetailObj = new JobDetailModel({
         job_id: jobId,
         description: requestBody.description
