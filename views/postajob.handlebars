@@ -26,7 +26,7 @@
         </div>
         <div class="form-group">
           <label for="companyLogo">Company Logo (Optional)</label>
-          <input type="file" class="form-control" value="" name="company_logo" id="companyLogo" placeholder="Upload logo" >
+          <input type="file" class="form-control" value="" name="company_logo_file_name" id="companyLogo" placeholder="Upload logo" >
         </div>
         <div class="form-group">
           <label for="radios">Do you want to take test for this position?</label>
@@ -41,7 +41,7 @@
         </div>
         <div id="testFile" class="form-group d-none">
           <label for="test">Upload test file / folder (.zip)</label>
-          <input type="file" class="form-control" value="" name="test" id="test" placeholder="Upload Test" >
+          <input type="file" class="form-control" value="" name="test_file_name" id="test" placeholder="Upload Test" >
           <small class="d-none custom-error-file red">Select test or check "No test" option if you don't want to take test</small>
         </div>
         <div class="form-group">
@@ -136,10 +136,10 @@
     if (!$('.custom-error-file').hasClass('d-none')) $('.custom-error-file').addClass('d-none');
     if (testStatus) {
       var testFile = document.getElementById('test').files[0];
-      !testFile ? emptyTestFileError() : myForm.append('test_file', testFile);
+      !testFile ? emptyTestFileError() : myForm.append('test_file_name', testFile);
     }
     var logoFile = document.getElementById('companyLogo').files[0];
-    if (logoFile) myForm.append('company_logo', logoFile);
+    if (logoFile) myForm.append('company_logo_file_name', logoFile);
     return true;
   };
 

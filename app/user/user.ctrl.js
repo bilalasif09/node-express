@@ -1,4 +1,4 @@
-const { dateFormat, getJobDetails } = require('../../helpers/app_helper');
+const { dateFormat, getFirstCharIfNoImage } = require('../../helpers/app_helper');
 const { getSingleUserJob, updateUser } = require('../../helpers/query_helper_users');
 const { checkTokenValidity } = require('../../helpers/api_helper');
 
@@ -9,12 +9,13 @@ exports.getSingleUser = async (req, res) => {
         isLoggedIn: req.cookies.token && req.cookies.token !== 'undefined' && checkTokenValidity(req.cookies.token),
         helpers: {
             dateFormat: dateFormat,
-            getJobDetails: getJobDetails
+            getFirstCharIfNoImage: getFirstCharIfNoImage
         }
     };
     try {
         const response = await getSingleUserJob(req.params.id);
         dataHash.data = response[0];
+        dataHash.data.jobs = dataHash.data.jobs.reverse();
         console.log(dataHash.data);
     }
     catch(err) {

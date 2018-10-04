@@ -6,8 +6,8 @@
                 <div class="home-block">
                     <div class="half-width-flex">
                         <a href="javascript:void(0)">
-                            <div class="profile-image"
-                             style="background-image: url(/{{../data._id}}_{{../data.image}});">
+                            <div class="profile-image" style="background-image: url('{{this.company_logo_file_path}}');">
+                                {{getFirstCharIfNoImage this.company_logo_file_path ../data.name}}
                             </div>
                         </a>
                         <div class="titles">
@@ -18,13 +18,13 @@
                         </div>
                     </div>
                     <div class="half-width-flex tags-date-block">
-                        {{#if this.tags.length}}
+                        {{!-- {{#if this.tags.length}} --}}
                             <div class="tags">
                                 {{#each this.tags}}
                                     <a href="/search?query={{this}}">{{this}}</a>
                                 {{/each}}
                             </div>
-                        {{/if}}
+                        {{!-- {{/if}} --}}
                         <small>{{dateFormat this.created_at}}</small>
                     </div>
                 </div>

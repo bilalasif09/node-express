@@ -1,4 +1,4 @@
-const { dateFormat, getUserDetails, getJobDetails } = require('../../helpers/app_helper');
+const { dateFormat, getFirstCharIfNoImage } = require('../../helpers/app_helper');
 const { getSingleJob } = require('../../helpers/query_helper_jobs');
 const { checkTokenValidity } = require('../../helpers/api_helper');
 
@@ -19,26 +19,16 @@ exports.job = async (req, res) => {
         isError: false,
         name: req.cookies.name,
         isLoggedIn: req.cookies.token && req.cookies.token !== 'undefined' && checkTokenValidity(req.cookies.token),
-        requirements: [],
-        responsibilities: [],
-        offer: [],
-        note: '',
         jobId: req.params.id,
         helpers: {
             dateFormat: dateFormat,
-            getUserDetails: getUserDetails,
-            getJobDetails: getJobDetails
+            getFirstCharIfNoImage: getFirstCharIfNoImage
         }
     };
     try {
         const response = await getSingleJob(dataHash.jobId);
         if (response) {
             dataHash.data = response[0];
-            dataHash.requirements = getJobDetails(dataHash.data.jobdetails, 'requirements');
-            dataHash.responsibilities = getJobDetails(dataHash.data.jobdetails, 'responsibilities');
-            dataHash.offer = getJobDetails(dataHash.data.jobdetails, 'offer');
-            dataHash.note = getJobDetails(dataHash.data.jobdetails, 'note');
-
         } else {
             dataHash.isError = true;
         };

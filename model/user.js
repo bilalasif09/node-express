@@ -36,8 +36,10 @@ const UserSchema = new Schema({
 		default: false
 	},
 	country: String,
-	image: String,
-	cv: String,
+	image_name: String,
+	image_path: String,
+	cv_name: String,
+	cv_path: String,
 	phone: String,
     created_at: { type: Date, default: new Date }
 });

@@ -9,60 +9,32 @@
             {{else}}
                 <div class="home-block">
                     <div class="half-width-flex">
-                        <a href="/user/{{data.uploader}}/{{getUserDetails data.user 'name'}}">
-                            <div class="profile-image" style="background-image: url(/{{getUserDetails data.user '_id'}}_{{getUserDetails data.user 'image'}});">
+                        <a href="/user/{{data.uploader}}/{{data.user.name}}">
+                            <div class="profile-image" style="background-image: url('{{data.company_logo_file_path}}');">
+                                {{getFirstCharIfNoImage data.company_logo_file_path data.user.name}}
                             </div>
                         </a>
                         <div class="titles">
                             <a href="/job/{{data._id}}">
                                 {{data.title}}
                             </a>
-                            <a href="/user/{{data.uploader}}/{{getUserDetails data.user 'name'}}">{{getUserDetails data.user 'name'}}</a>
+                            <a href="/user/{{data.uploader}}/{{data.user.name}}">{{data.user.name}}</a>
                         </div>
                     </div>
                     <div class="half-width-flex tags-date-block">
-                        {{#if data.tags.length}}
+                        {{!-- {{#if data.tags.length}} --}}
                             <div class="tags">
                                 {{#each data.tags}}
                                     <a href="/search?keywords={{this}}">{{this}}</a>
                                 {{/each}}
                             </div>
-                        {{/if}}
+                        {{!-- {{/if}} --}}
                         <small>{{dateFormat data.created_at}}</small>
                     </div>
                 </div>
                 <div class="job-detail-inner-content d-flex justify-content-around">
-                    <div class="half-width">
-                        <h3>About the company:</h3>
-                        <p>{{getJobDetails data.jobdetails 'about' }}</p>
-                        {{#if requirements.length}}
-                            <h3>Requirements:</h3>
-                            <ul>
-                                {{#each requirements}}
-                                    <li>{{this}}</li>
-                                {{/each}}
-                            </ul>
-                        {{/if}}
-                        {{#if responsibilities.length}}
-                            <h3>Responsibilities:</h3>
-                            <ul>
-                                {{#each responsibilities}}
-                                    <li>{{this}}</li>
-                                {{/each}}
-                            </ul>
-                        {{/if}}
-                        {{#if offer.length}}
-                            <h3>What we offer?</h3>
-                            <ul>
-                                {{#each offer}}
-                                    <li>{{this}}</li>
-                                {{/each}}
-                            </ul>
-                        {{/if}}
-                        {{#if note}}
-                            <h3>Note:</h3>
-                            <p>{{note}}</p>
-                        {{/if}}
+                    <div class="half-width" id="description">
+                        {{{data.jobdetails.description}}}
                     </div>
                     <form id="apply-form" class="half-width pl-20">
                         <h3>Apply:</h3>
