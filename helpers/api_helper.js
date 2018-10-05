@@ -13,13 +13,13 @@ exports.createAuthToken = (id) => {
     );
 };
 exports.checkTokenValidity = (token) => {
-    return jwt.verify(token, config.secret, (err, decoded) => {
+    return token && token !== 'undefined' && jwt.verify(token, config.secret, (err, decoded) => {
         if (err) return false;
-        else return true;
+        else return decoded.id;
     });
 };
 exports.validateAuthToken = async (req, res, next) => {
-    const token = req.headers['x-access-token'];
+    const token = req.headers['x-access-token'] || req.cookies.token;
     if (!token) {
         this.failure404(res, {});
     } else {

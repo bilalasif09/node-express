@@ -66,7 +66,7 @@ exports.update = async (req, res, next) => {
 };
 
 exports.apply = async (req, res, next) => {
-    let userObj = { cv: '' };
+    let userObj = { cv_name: '', cv_path: '' };
     let jobId;
     let filePath = '';
     const form = new formidable.IncomingForm();
@@ -77,18 +77,18 @@ exports.apply = async (req, res, next) => {
         if (field === 'jobId') jobId = value;
     });
     form.on('file', (name, file) => {
-        userObj.cv = file.name;
+        userObj.cv_name = file.name;
         filePath = file.path;
     });
     form.on('end', async () => {
         
         const promise1 = new Promise( async (resolve, reject) => {
             try {
+                userObj.cv_path = '/cvs-' + req.userId.toString() + '_' + userObj.cv_name;
                 const response = await updateUser(req.userId, userObj);
-                if (response) {
-                    const uniqueFileName = response._id.toString() + '_' + response.cv; 
+                if (response) { 
                     const promise = new Promise( (resolve, reject) => {
-                        fs.rename(filePath, form.uploadDir + "/cvs-" + uniqueFileName, (err) => {
+                        fs.rename(filePath, form.uploadDir + userObj.cv_path, (err) => {
                             if (err) reject();
                             resolve();
                         });

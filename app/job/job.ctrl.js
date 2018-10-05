@@ -6,7 +6,7 @@ exports.postajob = async (req, res) => {
     let dataHash = {
         data: null,
         name: req.cookies.name,
-        isLoggedIn: req.cookies.token && req.cookies.token !== 'undefined' && checkTokenValidity(req.cookies.token)
+        isLoggedIn: checkTokenValidity(req.cookies.token)
     };
     if (dataHash.isLoggedIn)
         res.render('postajob', dataHash);
@@ -18,7 +18,7 @@ exports.job = async (req, res) => {
         data: null,
         isError: false,
         name: req.cookies.name,
-        isLoggedIn: req.cookies.token && req.cookies.token !== 'undefined' && checkTokenValidity(req.cookies.token),
+        isLoggedIn: checkTokenValidity(req.cookies.token),
         jobId: req.params.id,
         helpers: {
             dateFormat: dateFormat,

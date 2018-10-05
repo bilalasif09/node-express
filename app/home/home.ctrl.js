@@ -1,12 +1,13 @@
 const { dateFormat, checkEquality, getFirstCharIfNoImage } = require('../../helpers/app_helper');
 const { getAllJobs, searchAllJobs } = require('../../helpers/query_helper_jobs');
+const { getSingleUserJob } = require('../../helpers/query_helper_users');
 const { checkTokenValidity } = require('../../helpers/api_helper');
 
 exports.index = async (req, res) => {
     let dataHash = {
         data: null,
         name: req.cookies.name,
-        isLoggedIn: req.cookies.token && req.cookies.token !== 'undefined' && checkTokenValidity(req.cookies.token),
+        isLoggedIn: checkTokenValidity(req.cookies.token),
         helpers: {
             dateFormat: dateFormat,
             checkEquality: checkEquality,
@@ -29,7 +30,7 @@ exports.search = async (req, res) => {
         data: null,
         name: req.cookies.name,
         query: req.query.query,
-        isLoggedIn: req.cookies.token && req.cookies.token !== 'undefined' && checkTokenValidity(req.cookies.token),
+        isLoggedIn: checkTokenValidity(req.cookies.token),
         helpers: {
             dateFormat: dateFormat,
             checkEquality: checkEquality,
@@ -44,4 +45,32 @@ exports.search = async (req, res) => {
         dataHash.data = err;
     };
     res.render('home', dataHash);
+};
+exports.dashboard = async (req, res) => {
+    let dataHash = {
+        data: null,
+        name: req.cookies.name,
+        isLoggedIn: checkTokenValidity(req.cookies.token),
+        helpers: {
+            dateFormat: dateFormat,
+            getFirstCharIfNoImage: getFirstCharIfNoImage
+        }
+    };
+    console.log("User id", dataHash.isLoggedIn);
+    
+    if (dataHash.isLoggedIn) {
+        try {
+            const response = await getSingleUserJob(dataHash.isLoggedIn);
+            dataHash.data = response[0];
+            dataHash.data.jobs = dataHash.data.jobs.reverse();
+            console.log(dataHash.data);
+        }
+        catch(err) {
+            dataHash.data = err;
+        };
+        res.render('dashboard', dataHash);
+    }
+    else {
+        res.redirect('/logout');
+    };
 };
