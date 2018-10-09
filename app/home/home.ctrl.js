@@ -74,3 +74,6 @@ exports.dashboard = async (req, res) => {
         res.redirect('/logout');
     };
 };
+exports.codeEditor = async (req, res) => {
+    res.render('codeeditor');
+};

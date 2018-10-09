@@ -1,0 +1,24 @@
+{{> header}}
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-sm-12 col-xs-12 offset-md-1 mt-3">
+      <h2 class="mb-3">Code Editor</h2>
+      <form>
+        <div class="form-group">
+          <label for="description">Editor</label>
+          <textarea type="text" name="editor" class="form-control" id="editor"></textarea>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+    //$(function() {
+        var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+            lineNumbers: true,
+            mode: "javascript",
+            matchBrackets: true
+        });
+    //});
+</script>
